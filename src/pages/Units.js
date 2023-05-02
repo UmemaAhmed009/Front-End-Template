@@ -12,8 +12,7 @@ export default function Units() {
   const { subjectID, classID } = useParams();
   const [units, setUnits] = useState([]);
 
-  
-  const [setSelectedUnit] = useState(null);
+  const [selectedUnit, setSelectedUnit] = useState(null);
 
   const handleSelectUnit = (unitName) => {
     axios.get(`http://localhost:3000/unit/unitName/${unitName}`)
