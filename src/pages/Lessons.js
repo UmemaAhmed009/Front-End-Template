@@ -75,13 +75,14 @@ export default function Lessons() {
       <Grid container spacing={3}>
         {lessons.map(lesson => (
           <Grid item xs={12} sm={6} md={3} key={lesson._id}>
-            <Link to={`/lessons/${lesson._id}`}>
-              <AppWidgetSummary title={lesson.lesson_name} icon={'ic:outline-child-care'} onClick={() => handleSelectLesson(lesson.lesson_name)}/>
-            </Link>
+            <button onClick={() => handleSelectLesson(lesson.lesson_name)}>
+              <AppWidgetSummary title={lesson.lesson_name} icon={'ic:outline-child-care'} />
+            </button>
           </Grid>
         ))}
       </Grid>
     </div>
   );
+  
   
   }
