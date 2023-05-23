@@ -14,6 +14,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate} from 'react-router-dom';
 
 
 function Copyright(props) {
@@ -32,28 +33,33 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  // const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [age, setAge] = useState("");
   const [password, setPassword] = useState("");
   const [register, setRegister] = useState(false);
-
+  
   const handleSubmit = (e) => {
-    // prevent the form from refreshing the whole page
     e.preventDefault();
     const configuration ={
       method: "post",
-      url: "http://localhost:3000/user/register",
+      url: "http://localhost:3000/user/signup",
       data: {
-        firstName,
-        lastName,
+        name,
         email,
         password,
+        age
       },
     }
     // make the API call
     axios(configuration)
-    .then((result) => {setRegister(true);})
+    .then((result) => {
+      setRegister(true);
+      navigate('/login');
+    
+    })
     .catch((error) => {error = new Error();})
   
     /* const data = new FormData(e.currentTarget);
@@ -90,31 +96,20 @@ export default function SignUp() {
           <p className="text-danger">You Are Not Registered</p>
         )}
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  name="Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="name"
+                  label="Name"
                   autoFocus
                 />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  autoComplete="family-name"
-                />
-              </Grid>
+
+        </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
@@ -127,6 +122,7 @@ export default function SignUp() {
                   autoComplete="email"
                 />
               </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -140,6 +136,20 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="age"
+                  label="Age"
+                  name="age"
+                  type="number"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                  inputProps={{ min: 0, max: 150 }} // Optional: Set minimum and maximum values
+                />
+              </Grid>
+
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
@@ -158,7 +168,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

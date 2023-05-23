@@ -50,6 +50,7 @@ export default function LoginPage() {
         <title> Login | Minimal UI </title>
       </Helmet>
 
+      
       <StyledRoot>
         <Logo
           sx={{
@@ -74,10 +75,10 @@ export default function LoginPage() {
               Sign in to Minimal
             </Typography>
 
-            <Typography variant="body2" sx={{ mb: 5 }}>
+           <Typography variant="body2" sx={{ mb: 5 }}>
               Don’t have an account? {''}
-              <Link variant="subtitle2">Get started</Link>
-            </Typography>
+               <Link href="/signup" variant="subtitle2">Get started</Link>
+        </Typography>
 
             <Stack direction="row" spacing={2}>
               <Button fullWidth size="large" color="inherit" variant="outlined">
