@@ -1,79 +1,3 @@
-// // import { Helmet } from 'react-helmet-async';
-// // import { faker } from '@faker-js/faker';
-// // import axios from 'axios';
-// // // @mui
-// // import { useTheme } from '@mui/material/styles';
-// // import { Grid, Container, Typography } from '@mui/material';
-// // import { useNavigate, Link } from 'react-router-dom';
-// // // import {button} from React;
-
-// // import { useState, button } from 'react';
-// // // components
-// // import Iconify from '../components/iconify';
-
-// import { Helmet } from 'react-helmet-async';
-// import { faker } from '@faker-js/faker';
-// import axios from 'axios';
-// import { useState, button, useEffect } from 'react';
-// // @mui
-// import { useTheme } from '@mui/material/styles';
-// import { Grid, Container, Typography } from '@mui/material';
-// import { useNavigate, Link, useParams } from 'react-router-dom';
-// // components
-// import Iconify from '../components/iconify';
-
-// // sections
-// import {
-//   AppTasks,
-//   AppNewsUpdate,
-//   AppOrderTimeline,
-//   AppCurrentVisits,
-//   AppWebsiteVisits,
-//   AppTrafficBySite,
-//   AppWidgetSummary,
-//   AppCurrentSubject,
-//   AppConversionRates,
-// } from '../sections/@dashboard/app';
-// // import React from 'react';
-
-// export default function LessonDetails() {
-//   const navigate = useNavigate();
-//   const { subjectID, classID, unitID, lessonID } = useParams();
-//   const [lessons, setLessons] = useState([]);
-
-  
-//   const [selectedLesson, setSelectedLesson] = useState(null);
-
-//   useEffect(() => {
-//     axios
-//       .get(`http://localhost:3000/lesson/${lessonID}`)
-//       .then((response) => {
-//         const { lesson_details, lesson_image } = response.data;
-//         setSelectedLesson({
-//           lessonDetails: lesson_details,
-//           lessonImage: lesson_image,
-//         });
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//       });
-//   }, []);
-  
-
-//   return (
-//     <div className="lesson-container">
-//       <div className="lesson-image-container">
-//         <img src={selectedLesson.lesson_image} alt="Lesson Image" />
-//       </div>
-//       <div className="lesson-details-container">
-//         <p>{selectedLesson.lesson_details}</p>
-//       </div>
-//     </div>
-//   );
-  
-  
-//   }
-
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
 import axios from 'axios';
@@ -85,27 +9,26 @@ import { useNavigate, Link, useParams } from 'react-router-dom';
 // components
 import Iconify from '../components/iconify';
 
+const buttonContainerStyle = {
+  position: 'fixed',
+  bottom: '50px',
+  right: '50px',
+};
+
+const buttonStyle = {
+  backgroundColor: '#4caf50',
+  color: 'white',
+  border: 'none',
+  padding: '10px 20px',
+  borderRadius: '5px',
+  cursor: 'pointer',
+
+};
+
 export default function LessonDetails() {
   const navigate = useNavigate();
   const { subjectID, classID, unitID, lessonID } = useParams();
   const [selectedLesson, setSelectedLesson] = useState(null);
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:3000/lesson/${lessonID}`)
-  //     .then((response) => {
-  //       const { lesson_details, lesson_image } = response.data;
-  //       // console.log(response.data)
-  //        setSelectedLesson({
-  //         lessonDetails: lesson_details,
-  //        lessonImage: lesson_image
-  //        });
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, []);
-
 
   useEffect(() => {
     axios
@@ -124,15 +47,27 @@ export default function LessonDetails() {
       });
   }, []);
 
+  const handleQuizClick = () => {
+    navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lesson/${lessonID}/lesson-details/question`);
+  };
+
+
   return (
     <div className="lesson-container">
       {selectedLesson && (
         <>
          <div className="lesson-details-container">
-            <p>{selectedLesson.lessonDetails}</p>
+         <Typography variant="h3" sx={{ mb: 5 }}>
+         {selectedLesson.lessonDetails}
+        </Typography>            
           </div>
           <div className="lesson-image-container">
-            <img src={selectedLesson.lessonImage} alt="Lesson" />
+            <img src={selectedLesson.lessonImage} alt="Lesson" style={{ width: '100%', height: 'auto', maxWidth: '300px' }}/>
+          </div>
+          <div className="quiz-button-container" style={buttonContainerStyle}>
+            <button style={buttonStyle} onClick={handleQuizClick}>
+              Click to take quiz!
+            </button>
           </div>
         </>
       )}

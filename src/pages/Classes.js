@@ -1,16 +1,3 @@
-// import { Helmet } from 'react-helmet-async';
-// import { faker } from '@faker-js/faker';
-// import axios from 'axios';
-// // @mui
-// import { useTheme } from '@mui/material/styles';
-// import { Grid, Container, Typography } from '@mui/material';
-// import { useNavigate, Link } from 'react-router-dom';
-// // import {button} from React;
-
-// import { useState, button } from 'react';
-// // components
-// import Iconify from '../components/iconify';
-
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
 import axios from 'axios';
@@ -36,8 +23,36 @@ import {
 } from '../sections/@dashboard/app';
 // import React from 'react';
 
-export default function Classes() {
+const classButtonStyles = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '200px',
+  height: '80px',
+  border: 'none',
+  borderRadius: '30px',
+  cursor: 'pointer',
+  transition: 'transform 0.3s',
+  background: 'linear-gradient(to right, #ff5722, #f50057)',
+  color: '#fff',
+  fontWeight: 'bold',
+  fontSize: '16px',
+};
 
+const classButtonHoverStyles = {
+  transform: 'scale(1.05)',
+};
+
+const handleMouseEnter = (e) => {
+  e.target.style.transform = classButtonHoverStyles.transform;
+}; 
+
+const handleMouseLeave = (e) => {
+  e.target.style.transform = 'scale(1)';
+};
+
+
+export default function Classes() {
 
 const navigate = useNavigate();
 const [selectedClass, setSelectedClass] = useState(null);
@@ -52,6 +67,7 @@ const handleSelectClass = (className) => {
     // navigate('/dashboard/user');
     //  navigate(`/subject/subjectID/classes/${classID}/units`);
     navigate(`/subject/${subjectID}/class/${classID}/units`);
+    // window.location.href = `/subject/${subjectID}/class/${classID}/units`;
 
     })
     .catch(error => {
@@ -67,33 +83,38 @@ const handleSelectClass = (className) => {
       </Helmet>
 
       <Container maxWidth="xl">
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
+        <Typography variant="h3" sx={{ mb: 5 }}>
+          Select a class
         </Typography>
 
         <Grid container spacing={3}>
+         
           <Grid item xs={12} sm={6} md={3}>
-            {/* <button > */}
-            <AppWidgetSummary title="KG" icon={'ant-design:android-filled'} onClick={() => handleSelectClass('KG')}/>
-            {/* </button> */}
+             <button  onClick={() => handleSelectClass('KG')}
+              style={{ ...classButtonStyles }}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}>KG</button>
+              </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+          <button  onClick={() => handleSelectClass('CLASS 1')}
+              style={{ ...classButtonStyles }}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}>CLASS 1</button>
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-             <button onClick={() => handleSelectClass('CLASS 1')}>
-              <AppWidgetSummary title="CLASS 1" icon={'ant-design:android-filled'} />
-            </button>
+          <button  onClick={() => handleSelectClass('CLASS 2')}
+              style={{ ...classButtonStyles }}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}>CLASS 2</button>
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-          <button onClick={() => handleSelectClass('CLASS 2')}>
-            <AppWidgetSummary title="CLASS 2" icon={'ant-design:android-filled'} />
-            </button>
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-          <button onClick={() => handleSelectClass('CLASS 3')}>
-            <AppWidgetSummary title="CLASS 3" icon={'ant-design:android-filled'} />
-            </button>
+          <button  onClick={() => handleSelectClass('CLASS 3')}
+              style={{ ...classButtonStyles }}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}>CLASS 3</button>
           </Grid>
 
 

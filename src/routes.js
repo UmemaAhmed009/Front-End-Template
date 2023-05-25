@@ -14,6 +14,7 @@ import Classes from './pages/Classes';
 import Units from './pages/Units';
 import Lessons from './pages/Lessons';
 import LessonDetails from './pages/LessonDetails';
+import Questions from './pages/Questions';
 import ProtectedRoutes from "./ProtectedRoutes";
 import AuthComponent from './AuthComponent';
 
@@ -55,6 +56,10 @@ export default function Router() {
     {
       path:'/subject/:subjectID/class/:classID/unit/:unitID/lesson/:lessonID/lesson-details',
       element: <LessonDetails/>,
+    },
+    {
+      path: '/subject/:subjectID/class/:classID/unit/:unitID/lesson/:lessonID/lesson-details/question',
+      element: <Questions/>,
     },
     {
       element: <SimpleLayout />,
