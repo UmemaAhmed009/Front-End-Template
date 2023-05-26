@@ -30,6 +30,24 @@ import {
 
 // ----------------------------------------------------------------------
 
+const gridButtonStyles = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '100%',
+  height: '100%',
+  border: 'none',
+  borderRadius: '8px',
+  cursor: 'pointer',
+  transition: 'transform 0.3s',
+};
+
+const gridImageStyles = {
+  width: '200px',
+  height: '150px',
+};
+
+
 export default function DashboardAppPage() {
   const theme = useTheme();
 
@@ -102,23 +120,26 @@ export default function DashboardAppPage() {
           Hi, Welcome back
         </Typography>
 
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={3}>
-          <button onClick={() => handleSelectSubject("Maths")}>
-            <AppWidgetSummary title="Maths"  icon={'ant-design:android-filled'} />
+          <button onClick={() => handleSelectSubject("Maths")} style={{ ...gridButtonStyles }}>
+            {/* <AppWidgetSummary title="Maths"  icon={'ant-design:android-filled'} /> */}
+            <img src="https://img.freepik.com/free-vector/number-0-9-with-math-symbols_1308-104131.jpg" alt="Maths" style={gridImageStyles} />
           </button>
           </Grid>
-
+          
           
           <Grid item xs={12} sm={6} md={3}>
-            <button onClick={()=> handleSelectSubject("English")}>
-            <AppWidgetSummary title="English" color="info" icon={'ant-design:apple-filled'} />
+            <button onClick={()=> handleSelectSubject("English")} style={{ ...gridButtonStyles }}>
+            {/* <AppWidgetSummary title="English" color="info" icon={'ant-design:apple-filled'} /> */}
+            <img src="https://img.freepik.com/free-vector/font-design-read-book-with-kid-reading-book_1308-81788.jpg?w=826&t=st=1685034857~exp=1685035457~hmac=6d0354bf9b49b0e63d07d8ffed8225969fe5df59674aa7aa38c9c738ce6bd038" alt="Maths" style={gridImageStyles} />
             </button>
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-          <button onClick={()=> handleSelectSubject("Science")}>
-            <AppWidgetSummary title="Science" color="warning" icon={'ant-design:windows-filled'} />
+          <button onClick={()=> handleSelectSubject("Science")} style={{ ...gridButtonStyles }}>
+            {/* <AppWidgetSummary title="Science" color="warning" icon={'ant-design:windows-filled'} /> */}
+            <img src="https://img.freepik.com/free-vector/scientist-working-with-science-tools-lab_1308-37836.jpg?w=740&t=st=1685034819~exp=1685035419~hmac=0968ac54bafacbf7e2d69b8ba9c4dcdd7adb1e2faade8389bfd6b0e949f5b8cf" alt="Science" style={gridImageStyles} />
           </button>
           </Grid>
 

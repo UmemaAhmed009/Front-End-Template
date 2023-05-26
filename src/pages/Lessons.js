@@ -1,15 +1,3 @@
-// import { Helmet } from 'react-helmet-async';
-// import { faker } from '@faker-js/faker';
-// import axios from 'axios';
-// // @mui
-// import { useTheme } from '@mui/material/styles';
-// import { Grid, Container, Typography } from '@mui/material';
-// import { useNavigate, Link } from 'react-router-dom';
-// // import {button} from React;
-
-// import { useState, button } from 'react';
-// // components
-// import Iconify from '../components/iconify';
 
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
@@ -44,6 +32,34 @@ import {
 } from '../sections/@dashboard/app';
 // import React from 'react';
 
+const lessonButtonStyles = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '200px',
+  height: '80px',
+  border: 'none',
+  borderRadius: '30px',
+  cursor: 'pointer',
+  transition: 'transform 0.3s',
+  background: 'linear-gradient(to right, #330B88, #880B1C)',
+  color: '#fff',
+  fontWeight: 'bold',
+  fontSize: '16px',
+};
+
+const lessonButtonHoverStyles = {
+  transform: 'scale(1.05)',
+};
+
+const handleMouseEnter = (e) => {
+  e.target.style.transform = lessonButtonHoverStyles.transform;
+}; 
+
+const handleMouseLeave = (e) => {
+  e.target.style.transform = 'scale(1)';
+};
+
 export default function Lessons() {
   const navigate = useNavigate();
   const { subjectID, classID, unitID } = useParams();
@@ -58,7 +74,8 @@ export default function Lessons() {
   
     axios.get(`http://localhost:3000/lesson/lessonName/${lessonName}`)
       .then(response => {
-        lessonID = response.data;
+        console.log('I am Minal')
+        const lessonID = response.data;
         setSelectedLesson(lessonID);
       // navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lesson/${lessonID}/lesson-details`);
       
@@ -110,18 +127,20 @@ export default function Lessons() {
 
   return (
     <div>
-      <h1>Lessons for Subject {subjectID}, Class {classID} and Unit {unitID}</h1>
+      <Typography variant="h3" sx={{ mb: 5 }}>
+      Lessons for Subject {subjectID}, Class {classID} and Unit {unitID}
+        </Typography>
       <Grid container spacing={3}>
         {lessons.map(lesson => (
           <Grid item xs={12} sm={6} md={3} key={lesson._id}>
-            <button onClick={() => handleSelectLesson(lesson.lesson_name)}>
-              <AppWidgetSummary title={lesson.lesson_name} icon={'ic:outline-child-care'} />
+            <button onClick={() => handleSelectLesson(lesson.lesson_name)} style={{ ...lessonButtonStyles }}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}>{lesson.lesson_name}    
             </button>
           </Grid>
         ))}
       </Grid>
     </div>
   );
-  
   
   }
