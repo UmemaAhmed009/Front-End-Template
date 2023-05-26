@@ -39,7 +39,10 @@ export default function LoginForm() {
       .then((result) => {
         setLogin(true);
         // set the cookie
-        cookies.set("accessToken", result.data.token, {
+        cookies.set("accessToken", result.data.accessToken, {
+          path: "/",
+        });
+        cookies.set("refreshToken", result.data.refreshToken, {
           path: "/",
         });
         window.location.href = "/dashboard"

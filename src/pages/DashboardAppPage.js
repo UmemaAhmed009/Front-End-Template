@@ -6,6 +6,11 @@ import { useState, button } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
+
+import { Cookies } from 'react-cookie';
+/* eslint-disable */
+import jwt_decode from 'jwt-decode';
+
 // components
 import Iconify from '../components/iconify';
 
@@ -30,21 +35,60 @@ export default function DashboardAppPage() {
 
   const navigate = useNavigate();
   const [selectedSubject, setSelectedSubject] = useState(null);
-
+  let subjectID=null;
+  const cookies = new Cookies();
 
   const handleSelectSubject = (subjectName) => {
+
     axios.get(`http://localhost:3000/subject/subjectName/${subjectName}`)
       .then(response => {
-        const subjectID = response.data;
+        subjectID = response.data;
         setSelectedSubject(subjectID);
-      // navigate('/dashboard/user');
-       navigate(`/subject/${subjectID}/classes`);
+        // navigate('/dashboard/user');
+        //  navigate(`/subject/${subjectID}/classes`);
+
+        console.log("SUB ID 1",subjectID)
+
+        // post api for progress
+        // Get the access token from cookies
+        const accessToken = cookies.get('accessToken');
+        
+
+        if (accessToken) {
+          try {
+            // Decode the access token to extract user ID
+            const decodedToken = jwt_decode(accessToken);
+            const userId = decodedToken.userId;
+            console.log("USER ID ",userId)
+            console.log("SUB ID ",subjectID)
+            // Make the POST request with the user ID
+            axios.post('http://localhost:3000/progress', {
+              
+              user_id: userId,
+              subject_id: subjectID
+            })
+              .then(response => {
+                // Handle the response
+                console.log(response.data);
+                navigate(`/subject/${subjectID}/classes`);
+              })
+              .catch(error => {
+                // Handle the error
+                console.error(error);
+              });
+          } catch (error) {
+            // Handle decoding error
+            console.error('Error decoding access token:', error);
+          }
+        }
+
       })
-      .catch(error => {
-        console.error(error);
-      });
-  
-}
+    .catch(error => {
+      console.error(error);
+    });
+
+      
+  }
 
 
   return (

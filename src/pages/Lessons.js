@@ -14,11 +14,19 @@
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
 import axios from 'axios';
+
+import { Cookies } from 'react-cookie';
+/* eslint-disable */
+import jwt_decode from 'jwt-decode';
+
 import { useState, button, useEffect } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
 import { useNavigate, Link, useParams } from 'react-router-dom';
+
+
+
 // components
 import Iconify from '../components/iconify';
 
@@ -40,17 +48,48 @@ export default function Lessons() {
   const navigate = useNavigate();
   const { subjectID, classID, unitID } = useParams();
   const [lessons, setLessons] = useState([]);
-
   
-  const [setSelectedLesson] = useState(null);
+  const [selectedLesson, setSelectedLesson] = useState(null);
+
+  let lessonID=null;
+  const cookies = new Cookies();
 
   const handleSelectLesson = (lessonName) => {
   
     axios.get(`http://localhost:3000/lesson/lessonName/${lessonName}`)
       .then(response => {
-        const lessonID = response.data;
+        lessonID = response.data;
         setSelectedLesson(lessonID);
-      navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lesson/${lessonID}/lesson-details`);
+      // navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lesson/${lessonID}/lesson-details`);
+      
+      const accessToken = cookies.get('accessToken');
+
+      if (accessToken) {
+        try {
+          // Decode the access token to extract user ID
+          const decodedToken = jwt_decode(accessToken);
+          const userId = decodedToken.userId;
+          console.log("USER ID ",userId)
+          console.log("lesson ID ",lessonID)
+
+          // Make the POST request with the user ID
+          axios.put(`http://localhost:3000/progress/user/${userId}/subject/${subjectID}/class/${classID}/unit/${unitID}/lesson`, {
+            lesson_id: lessonID
+          })
+            .then(response => {
+              // Handle the response
+              console.log(response.data);
+              navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lesson/${lessonID}/lesson-details`);
+            })
+            .catch(error => {
+              // Handle the error
+              console.error(error);
+            });
+        } catch (error) {
+          // Handle decoding error
+          console.error('Error decoding access token:', error);
+        }
+      }
 
       })
       .catch(error => {

@@ -2,10 +2,17 @@ import { useState, useEffect } from 'react';
 import { Grid, Icon, Container, Typography } from '@mui/material'; 
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+import { Cookies } from 'react-cookie';
+/* eslint-disable */
+import jwt_decode from 'jwt-decode';
+
 import Iconify from '../components/iconify';
 import {
   AppWidgetSummary,
 } from '../sections/@dashboard/app';
+
+
 
 export default function Units() {
   const navigate = useNavigate();
@@ -14,13 +21,44 @@ export default function Units() {
 
   const [selectedUnit, setSelectedUnit] = useState(null);
 
+  let unitID=null;
+  const cookies = new Cookies();
+
   const handleSelectUnit = (unitName) => {
     axios.get(`http://localhost:3000/unit/unitName/${unitName}`)
       .then(response => {
-        const unitID = response.data;
+        unitID = response.data;
         setSelectedUnit(unitID);
-      navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lessons`);
+      // navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lessons`);
       
+      const accessToken = cookies.get('accessToken');
+
+      if (accessToken) {
+        try {
+          // Decode the access token to extract user ID
+          const decodedToken = jwt_decode(accessToken);
+          const userId = decodedToken.userId;
+          console.log("USER ID ",userId)
+
+          // Make the POST request with the user ID
+          axios.put(`http://localhost:3000/progress/user/${userId}/subject/${subjectID}/class/${classID}/unit`, {
+            unit_id: unitID
+          })
+            .then(response => {
+              // Handle the response
+              console.log(response.data);
+              navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lessons`);
+            })
+            .catch(error => {
+              // Handle the error
+              console.error(error);
+            });
+        } catch (error) {
+          // Handle decoding error
+          console.error('Error decoding access token:', error);
+        }
+      }
+
       })
       .catch(error => {
         console.error(error);
