@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
+import { Grid, Container, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 
 import { Cookies } from 'react-cookie';
@@ -26,6 +26,15 @@ const Questions = () => {
 
   const { subjectID, classID, unitID, lessonID } = useParams();
 
+  // const shuffleAnswers = () => {
+  //   const shuffledAnswers = [...currentQuestion.answers];
+  //   for (let i = shuffledAnswers.length - 1; i > 0; i -= 1) {
+  //     const j = Math.floor(Math.random() * (i + 1));
+  //     [shuffledAnswers[i], shuffledAnswers[j]] = [shuffledAnswers[j], shuffledAnswers[i]];
+  //   }
+  //   return shuffledAnswers;
+  // };
+
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
@@ -45,7 +54,18 @@ const Questions = () => {
     }
   }, [questions, currentQuestionIndex]);
 
-
+  const shuffleAnswers = () => {
+    if (!currentQuestion) {
+      return []; // Return an empty array if there are no more questions
+    }
+  
+    const shuffledAnswers = [...currentQuestion.answers];
+    for (let i = shuffledAnswers.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledAnswers[i], shuffledAnswers[j]] = [shuffledAnswers[j], shuffledAnswers[i]];
+    }
+    return shuffledAnswers;
+  };
   
   const handleNextQuestion = () => {
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
@@ -58,17 +78,8 @@ const Questions = () => {
   const currentQuestion = questions[currentQuestionIndex];
 
   if (!currentQuestion) {
-    return <p>Loading...</p>;
+    return <p>Congratulations! You have completed the lesson!</p>;
   }
-
-  const shuffleAnswers = () => {
-    const shuffledAnswers = [...currentQuestion.answers];
-    for (let i = shuffledAnswers.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledAnswers[i], shuffledAnswers[j]] = [shuffledAnswers[j], shuffledAnswers[i]];
-    }
-    return shuffledAnswers;
-  };
 
   const handleAnswerSelect = (selectedAnswer) => {
     const correctAnswer = currentQuestion.answers[0]; // db has correct ans on the first index of the ans array
@@ -198,5 +209,61 @@ const Questions = () => {
     </div>
   );
 };
+  
+//   return (
+//     <div>
+//       <Typography variant="h3" sx={{ mb: 0 }}>
+//         Quiz Page!
+//       </Typography>
+//       {currentQuestionIndex < questions.length ? (
+//       <div>
+//         <Typography variant="h3" sx={{ mb: 1 }}>
+//           {currentQuestion.question_details}
+//         </Typography>
+//         {currentQuestion.question_image && (
+//           <img
+//             src={currentQuestion.question_image}
+//             alt={`Question ${currentQuestionIndex + 1}`}
+//             style={{ width: '300px', height: '300px', marginBottom: '20px'}}
+//           />
+//         )}
+//         {/* <div style={ styles.buttonContainer }> */} 
+//         {shuffledAnswers.map((answer, index) => {
+//           const isCorrectAnswer = answer === currentQuestion.answers[0];
+//           const isClickedIncorrectAnswer = selectedAnswer === answer && !isCorrectAnswer;
+//           const isDisabled = disabledOptions.includes(answer);
+
+//           let buttonStyle = styles.button;
+//           if (isAnswerCorrect && isCorrectAnswer) {
+//             buttonStyle = { ...buttonStyle, ...styles.correctButton };
+//           } else if (isClickedIncorrectAnswer) {
+//             buttonStyle = { ...buttonStyle, ...styles.incorrectButton };
+//           }
+
+//           return (
+//             <button
+//               key={index}
+//               onClick={() => handleAnswerSelect(answer)}
+//               style={isDisabled ? { ...buttonStyle, ...{ backgroundColor: 'grey', cursor: 'not-allowed' } } : buttonStyle}
+//               disabled={isAnswerCorrect || isDisabled}
+//             >
+//               {answer}
+//             </button>
+//           );
+//         })}
+//         {/* </div> */}
+//         {tryCounter > 0 && !isAnswerCorrect && (
+//           <p>You have tried {tryCounter} time(s). Try again!</p>
+//         )}
+//         {isAnswerCorrect && (
+//           <p>Correct! The answer is {currentQuestion.answers[0]}.</p>
+//         )}
+//       </div>
+//       ) : (
+//         <p>Congratulations! You have completed this lesson.</p>
+//       )};
+//     </div>
+//   );
+// };
 
 export default Questions;
