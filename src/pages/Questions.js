@@ -15,9 +15,16 @@ import jwt_decode from 'jwt-decode';
 import Iconify from '../components/iconify';
 
 // NEW
+// NEW
 const Questions = () => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [tryCounter, setTryCounter] = useState(0);
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
+  const [shuffledAnswers, setShuffledAnswers] = useState([]);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [disabledOptions, setDisabledOptions] = useState([]);
+
   const [tryCounter, setTryCounter] = useState(0);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
   const [shuffledAnswers, setShuffledAnswers] = useState([]);
@@ -45,10 +52,12 @@ const Questions = () => {
     }
   }, [questions, currentQuestionIndex]);
 
-
-  
   const handleNextQuestion = () => {
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    setTryCounter(0);
+    setIsAnswerCorrect(false);
+    setSelectedAnswer(null);
+    setDisabledOptions([]);
     setTryCounter(0);
     setIsAnswerCorrect(false);
     setSelectedAnswer(null);
@@ -151,8 +160,13 @@ const Questions = () => {
     <div>
       <Typography variant="h3" sx={{ mb: 0 }}>
         Quiz Page!
+      <Typography variant="h3" sx={{ mb: 0 }}>
+        Quiz Page!
       </Typography>
       <div>
+        <Typography variant="h3" sx={{ mb: 1 }}>
+          {currentQuestion.question_details}
+        </Typography>
         <Typography variant="h3" sx={{ mb: 1 }}>
           {currentQuestion.question_details}
         </Typography>
@@ -162,6 +176,42 @@ const Questions = () => {
             alt={`Question ${currentQuestionIndex + 1}`}
             style={{ width: '300px', height: '300px', marginBottom: '20px'}}
           />
+          <img
+            src={currentQuestion.question_image}
+            alt={`Question ${currentQuestionIndex + 1}`}
+            style={{ width: '300px', height: '300px', marginBottom: '20px'}}
+          />
+        )}
+        {/* <div style={ styles.buttonContainer }> */} 
+        {shuffledAnswers.map((answer, index) => {
+          const isCorrectAnswer = answer === currentQuestion.answers[0];
+          const isClickedIncorrectAnswer = selectedAnswer === answer && !isCorrectAnswer;
+          const isDisabled = disabledOptions.includes(answer);
+
+          let buttonStyle = styles.button;
+          if (isAnswerCorrect && isCorrectAnswer) {
+            buttonStyle = { ...buttonStyle, ...styles.correctButton };
+          } else if (isClickedIncorrectAnswer) {
+            buttonStyle = { ...buttonStyle, ...styles.incorrectButton };
+          }
+
+          return (
+            <button
+              key={index}
+              onClick={() => handleAnswerSelect(answer)}
+              style={isDisabled ? { ...buttonStyle, ...{ backgroundColor: 'grey', cursor: 'not-allowed' } } : buttonStyle}
+              disabled={isAnswerCorrect || isDisabled}
+            >
+              {answer}
+            </button>
+          );
+        })}
+        {/* </div> */}
+        {tryCounter > 0 && !isAnswerCorrect && (
+          <p>You have tried {tryCounter} time(s). Try again!</p>
+        )}
+        {isAnswerCorrect && (
+          <p>Correct! The answer is {currentQuestion.answers[0]}.</p>
         )}
         {/* <div style={ styles.buttonContainer }> */} 
         {shuffledAnswers.map((answer, index) => {
