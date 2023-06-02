@@ -8,6 +8,7 @@ import { Grid, Container, Typography } from '@mui/material';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 
 import { Cookies } from 'react-cookie';
+
 /* eslint-disable */
 import jwt_decode from 'jwt-decode';
 
