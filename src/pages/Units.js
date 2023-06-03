@@ -7,6 +7,8 @@ import { Cookies } from 'react-cookie';
 /* eslint-disable */
 import jwt_decode from 'jwt-decode';
 
+import { CheckCircle } from '@mui/icons-material';
+
 import Iconify from '../components/iconify';
 import {
   AppWidgetSummary,
@@ -48,9 +50,23 @@ export default function Units() {
   
   // const [setSelectedUnit] = useState(null);
   const [selectedUnit, setSelectedUnit] = useState(null);
+  const [completedUnits, setCompletedUnits] = useState([]);
 
   let unitID=null;
   const cookies = new Cookies();
+  const accessToken = cookies.get('accessToken');
+  let userId=null;
+  if (accessToken) {
+    try {
+      // Decode the access token to extract user ID
+      const decodedToken = jwt_decode(accessToken);
+      userId = decodedToken.userId;
+      console.log("USER ID now",userId)
+    } catch (error) {
+      // Handle decoding error
+      console.error('Error decoding access token:', error);
+    }
+  }
 
   const handleSelectUnit = (unitName) => {
     axios.get(`http://localhost:3000/unit/unitName/${unitName}`)
@@ -59,41 +75,27 @@ export default function Units() {
         setSelectedUnit(unitID);
       // navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lessons`);
       
-      const accessToken = cookies.get('accessToken');
-
-      if (accessToken) {
-        try {
-          // Decode the access token to extract user ID
-          const decodedToken = jwt_decode(accessToken);
-          const userId = decodedToken.userId;
-          console.log("USER ID ",userId)
-
-          // Make the POST request with the user ID
-          axios.put(`http://localhost:3000/progress/user/${userId}/subject/${subjectID}/class/${classID}/unit`, {
-            unit_id: unitID
-          })
-            .then(response => {
-              // Handle the response
-              console.log(response.data);
-              navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lessons`);
-            })
-            .catch(error => {
-              // Handle the error
-              console.error(error);
-            });
-        } catch (error) {
-          // Handle decoding error
-          console.error('Error decoding access token:', error);
-        }
-      }
+      // Make the POST request with the user ID
+      axios.put(`http://localhost:3000/progress/user/${userId}/subject/${subjectID}/class/${classID}/unit`, {
+        unit_id: unitID
+      })
+        .then(response => {
+          // Handle the response
+          console.log(response.data);
+          navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lessons`);
+        })
+        .catch(error => {
+          // Handle the error
+          console.error(error);
+        });
 
       })
       .catch(error => {
         console.error(error);
-      });
+    });
 
 
-    }
+  }
 
 
   useEffect(() => {
@@ -102,8 +104,29 @@ export default function Units() {
       setUnits(response.data);
     };
     fetchUnits();
+
+    console.log("WHATT ",userId)
+    const fetchCompletedUnits = async () => {
+      const response = await axios.get(`http://localhost:3000/progress/user/${userId}/completed-units`);
+      const completed_units=response.data;
+      console.log(completed_units)
+      setCompletedUnits(completed_units);
+    };
+    fetchCompletedUnits();
   }, []);
 
+  // Check if a unit is completed
+  const isUnitCompleted = (unitId) => {
+    console.log("check", unitId, completedUnits.includes(unitId))
+    return completedUnits.includes(unitId);
+  };
+  
+  // Check if all units are completed
+  const areAllUnitsCompleted = completedUnits.length === units.length;
+
+  const handleCongratsButtonClick = () => {
+    navigate(`/subject/${subjectID}/classes`);
+  };
 
   return (
     <div>
@@ -116,11 +139,26 @@ export default function Units() {
           <Grid item xs={12} sm={6} md={3} key={unit._id}>
             <button onClick={() => handleSelectUnit(unit.unit_name)} style={{ ...unitButtonStyles }}
               onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}>{unit.unit_name}
+              onMouseLeave={handleMouseLeave}
+            >
+              {unit.unit_name} {isUnitCompleted(unit._id) && <CheckCircle sx={{ color: 'green', marginLeft: '5px' }} />}
             </button>
           </Grid>
         ))}
       </Grid>
+      
+      {/* Conditional rendering for the button and congratulatory message */}
+      {areAllUnitsCompleted && (
+        <div>
+          <button onClick={handleCongratsButtonClick} style={{ ...lessonButtonStyles }}>
+            Go to another class
+          </button>
+          <Typography variant="h4" sx={{ mt: 3 }}>
+            Congratulations on completing all units!
+          </Typography>
+        </div>
+      )}
+
     </div>
   );
   

@@ -10,9 +10,10 @@ import jwt_decode from 'jwt-decode';
 import { useState, button, useEffect } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
+import { Grid, Container, Typography} from '@mui/material';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 
+import { CheckCircle } from '@mui/icons-material';
 
 
 // components
@@ -64,11 +65,26 @@ export default function Lessons() {
   const navigate = useNavigate();
   const { subjectID, classID, unitID } = useParams();
   const [lessons, setLessons] = useState([]);
+  let completed_lessons=null;
   
   const [selectedLesson, setSelectedLesson] = useState(null);
+  const [completedLessons, setCompletedLessons] = useState([]);
 
   let lessonID=null;
+  let userId=null;
   const cookies = new Cookies();
+  const accessToken = cookies.get('accessToken');
+  if (accessToken) {
+    try {
+      // Decode the access token to extract user ID
+      const decodedToken = jwt_decode(accessToken);
+      userId = decodedToken.userId;
+
+    } catch (error) {
+      // Handle decoding error
+      console.error('Error decoding access token:', error);
+    }
+  }
 
   const handleSelectLesson = (lessonName) => {
   
@@ -78,69 +94,138 @@ export default function Lessons() {
         const lessonID = response.data;
         setSelectedLesson(lessonID);
       // navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lesson/${lessonID}/lesson-details`);
-      
-      const accessToken = cookies.get('accessToken');
 
-      if (accessToken) {
-        try {
-          // Decode the access token to extract user ID
-          const decodedToken = jwt_decode(accessToken);
-          const userId = decodedToken.userId;
-          console.log("USER ID ",userId)
-          console.log("lesson ID ",lessonID)
-
-          // Make the POST request with the user ID
-          axios.put(`http://localhost:3000/progress/user/${userId}/subject/${subjectID}/class/${classID}/unit/${unitID}/lesson`, {
-            lesson_id: lessonID
-          })
-            .then(response => {
-              // Handle the response
-              console.log(response.data);
-              navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lesson/${lessonID}/lesson-details`);
-            })
-            .catch(error => {
-              // Handle the error
-              console.error(error);
-            });
-        } catch (error) {
-          // Handle decoding error
-          console.error('Error decoding access token:', error);
-        }
-      }
-
+        console.log("USER ID ",userId)
+        console.log("lesson ID ",lessonID)
+        // Make the POST request with the user ID
+        axios.put(`http://localhost:3000/progress/user/${userId}/subject/${subjectID}/class/${classID}/unit/${unitID}/lesson`, {
+          lesson_id: lessonID
+        })
+        .then(response => {
+          // Handle the response
+          console.log(response.data);
+          navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lesson/${lessonID}/lesson-details`);
+        })
+        .catch(error => {
+          // Handle the error
+          console.error(error);
+        });
       })
       .catch(error => {
         console.error(error);
       });
 
 
-    }
+  }
 
-
+  
   useEffect(() => {
     const fetchLessons = async () => {
       const response = await axios.get(`http://localhost:3000/lesson/unit/${unitID}`);
       setLessons(response.data);
     };
     fetchLessons();
+
+    const fetchCompletedLessons = async () => {
+      const response = await axios.get(`http://localhost:3000/progress/user/${userId}/completed-lessons`);
+      completed_lessons=response.data;
+      console.log("Progress ooo", completed_lessons)
+      setCompletedLessons(completed_lessons);
+    };
+    fetchCompletedLessons();
+    // console.log("Progress", progress)
   }, []);
+
+  // Check if a lesson is completed
+  const isLessonCompleted = (lessonId) => {
+    console.log("check", lessonId, completedLessons.includes(lessonId))
+    return completedLessons.includes(lessonId);
+  };
+  
+  // Check if all lessons are completed
+  const areAllLessonsCompleted = completedLessons.length === lessons.length;
+
+  const handleCongratsButtonClick = () => {
+    navigate(`/subject/${subjectID}/class/${classID}/units`);
+  };
 
   return (
     <div>
       <Typography variant="h3" sx={{ mb: 5 }}>
-      Lessons for Subject {subjectID}, Class {classID} and Unit {unitID}
-        </Typography>
+        Lessons for Subject {subjectID}, Class {classID}, and Unit {unitID}
+      </Typography>
       <Grid container spacing={3}>
-        {lessons.map(lesson => (
-          <Grid item xs={12} sm={6} md={3} key={lesson._id}>
-            <button onClick={() => handleSelectLesson(lesson.lesson_name)} style={{ ...lessonButtonStyles }}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}>{lesson.lesson_name}    
-            </button>
-          </Grid>
-        ))}
+        {lessons.map((lesson) => {
+          return (
+            <Grid item xs={12} sm={6} md={3} key={lesson._id}>
+              <button
+                onClick={() => handleSelectLesson(lesson.lesson_name)}
+                style={{ ...lessonButtonStyles }}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                {lesson.lesson_name} {isLessonCompleted(lesson._id) && <CheckCircle sx={{ color: 'green', marginLeft: '5px' }} />}
+              </button>
+            </Grid>
+          );
+        })}
       </Grid>
+
+      {/* Conditional rendering for the button and congratulatory message */}
+      {areAllLessonsCompleted && (
+        <div>
+          <button onClick={handleCongratsButtonClick} style={{ ...lessonButtonStyles }}>
+            Complete another unit
+          </button>
+          <Typography variant="h4" sx={{ mt: 3 }}>
+            Congratulations on completing all lessons!
+          </Typography>
+        </div>
+      )}
     </div>
   );
+
+  // return (
+  //   <div>
+  //     <Typography variant="h3" sx={{ mb: 5 }}>
+  //       Lessons for Subject {subjectID}, Class {classID}, and Unit {unitID}
+  //     </Typography>
+  //     <Grid container spacing={3}>
+  //       {lessons.map((lesson) => {
+  //         return (
+  //           <Grid item xs={12} sm={6} md={3} key={lesson._id}>
+  //             <button
+  //               onClick={() => handleSelectLesson(lesson.lesson_name)}
+  //               style={{ ...lessonButtonStyles }}
+  //               onMouseEnter={handleMouseEnter}
+  //               onMouseLeave={handleMouseLeave}
+  //             >
+  //               {lesson.lesson_name} {isLessonCompleted(lesson._id) && <CheckCircle sx={{ color: 'green', marginLeft: '5px' }} />}
+  //             </button>
+  //           </Grid>
+  //         );
+  //       })}
+  //     </Grid>
+  //   </div>
+  // );
+  
+
+  // return (
+  //   <div>
+  //     <Typography variant="h3" sx={{ mb: 5 }}>
+  //     Lessons for Subject {subjectID}, Class {classID} and Unit {unitID}
+  //       </Typography>
+  //     <Grid container spacing={3}>
+  //       {lessons.map(lesson => (
+  //         <Grid item xs={12} sm={6} md={3} key={lesson._id}>
+  //           <button onClick={() => handleSelectLesson(lesson.lesson_name)} style={{ ...lessonButtonStyles }}
+  //             onMouseEnter={handleMouseEnter}
+  //             onMouseLeave={handleMouseLeave}>{lesson.lesson_name}    
+  //           </button>
+  //         </Grid>
+  //       ))}
+  //     </Grid>
+  //   </div>
+  // );
   
   }

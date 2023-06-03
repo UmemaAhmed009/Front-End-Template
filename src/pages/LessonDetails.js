@@ -6,6 +6,12 @@ import { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
 import { useNavigate, Link, useParams } from 'react-router-dom';
+
+
+import { Cookies } from 'react-cookie';
+/* eslint-disable */
+import jwt_decode from 'jwt-decode';
+
 // components
 import Iconify from '../components/iconify';
 
@@ -29,6 +35,22 @@ export default function LessonDetails() {
   const navigate = useNavigate();
   const { subjectID, classID, unitID, lessonID } = useParams();
   const [selectedLesson, setSelectedLesson] = useState(null);
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  let userId=null;
+  const cookies = new Cookies();
+  const accessToken = cookies.get('accessToken');
+  if (accessToken) {
+    try {
+      // Decode the access token to extract user ID
+      const decodedToken = jwt_decode(accessToken);
+      userId = decodedToken.userId;
+
+    } catch (error) {
+      // Handle decoding error
+      console.error('Error decoding access token:', error);
+    }
+  }
 
   useEffect(() => {
     axios
@@ -45,10 +67,24 @@ export default function LessonDetails() {
       .catch((error) => {
         console.error(error);
       });
+
+      const isLessonCompleted = async () => {
+        const response = await axios.get(`http://localhost:3000/progress/user/${userId}/lesson/${lessonID}/completed`);
+        setIsCompleted(response.data.isLessonCompleted);
+        console.log("ASNWER ",isCompleted);
+      };
+      isLessonCompleted();
+
   }, []);
 
   const handleQuizClick = () => {
-    navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lesson/${lessonID}/lesson-details/question`);
+    if (isCompleted){
+      navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lesson/${lessonID}/lesson-details/answered-questions`);
+    }
+    else{
+      navigate(`/subject/${subjectID}/class/${classID}/unit/${unitID}/lesson/${lessonID}/lesson-details/question`);
+    }
+    
   };
 
 
@@ -66,7 +102,7 @@ export default function LessonDetails() {
           </div>
           <div className="quiz-button-container" style={buttonContainerStyle}>
             <button style={buttonStyle} onClick={handleQuizClick}>
-              Click to take quiz!
+              {isCompleted ? 'View Answers' : 'Click to take a quiz'}
             </button>
           </div>
         </>

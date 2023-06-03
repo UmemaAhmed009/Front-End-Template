@@ -78,7 +78,61 @@ const Questions = () => {
   const currentQuestion = questions[currentQuestionIndex];
 
   if (!currentQuestion) {
-    return <p>Congratulations! You have completed the lesson!</p>;
+    const congratsContainerStyle = {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '100vh',
+      background: 'url(https://img.freepik.com/premium-vector/happy-cute-kids-boy-girl-celebrate-win_97632-1313.jpg?w=1060) center/cover',
+      padding: '20px',
+      boxSizing: 'border-box',
+    };
+
+    const congratsMessageStyle = {
+      fontSize: '36px',
+      fontWeight: 'bold',
+      color: '#FFFFFF',
+      textAlign: 'center',
+      marginBottom: '20px',
+      background:'linear-gradient(45deg, rgba(255, 107, 107, 0.7), rgba(153, 204, 255, 0.6))',
+      padding: '10px',
+      borderRadius: '8px',
+      boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
+      transition: 'transform 0.3s ease, background 0.3s ease',
+      cursor: 'pointer',
+    };
+    
+    // Add hover effect
+    congratsMessageStyle[':hover'] = {
+      transform: 'scale(1.05)',
+       background: 'linear-gradient(45deg, rgba(255, 107, 107, 1), rgba(153, 204, 255, 1))', // Change the gradient colors for hover effect
+    };
+    
+
+    const goBackButtonStyle = {
+      padding: '10px 20px',
+      backgroundColor: '#41D1C6',
+      border: 'none',
+      borderRadius: '4px',
+      opacity: '0.8',
+      color: '#ffffff',
+      textDecoration: 'none',
+      textTransform: 'uppercase',
+      fontWeight: 'bold',
+      cursor: 'pointer',
+    };
+
+    return (
+      <div style={congratsContainerStyle}>
+        <Typography variant="h3" style={congratsMessageStyle}>
+          Congratulations! You have completed the lesson! 🌟🌟🌟
+        </Typography>
+        <Link to={`/subject/${subjectID}/class/${classID}/unit/${unitID}/lessons`} style={goBackButtonStyle}>
+          Go back to Lessons
+        </Link>
+      </div>
+    );
   }
 
   const handleAnswerSelect = (selectedAnswer) => {
@@ -209,61 +263,5 @@ const Questions = () => {
     </div>
   );
 };
-  
-//   return (
-//     <div>
-//       <Typography variant="h3" sx={{ mb: 0 }}>
-//         Quiz Page!
-//       </Typography>
-//       {currentQuestionIndex < questions.length ? (
-//       <div>
-//         <Typography variant="h3" sx={{ mb: 1 }}>
-//           {currentQuestion.question_details}
-//         </Typography>
-//         {currentQuestion.question_image && (
-//           <img
-//             src={currentQuestion.question_image}
-//             alt={`Question ${currentQuestionIndex + 1}`}
-//             style={{ width: '300px', height: '300px', marginBottom: '20px'}}
-//           />
-//         )}
-//         {/* <div style={ styles.buttonContainer }> */} 
-//         {shuffledAnswers.map((answer, index) => {
-//           const isCorrectAnswer = answer === currentQuestion.answers[0];
-//           const isClickedIncorrectAnswer = selectedAnswer === answer && !isCorrectAnswer;
-//           const isDisabled = disabledOptions.includes(answer);
-
-//           let buttonStyle = styles.button;
-//           if (isAnswerCorrect && isCorrectAnswer) {
-//             buttonStyle = { ...buttonStyle, ...styles.correctButton };
-//           } else if (isClickedIncorrectAnswer) {
-//             buttonStyle = { ...buttonStyle, ...styles.incorrectButton };
-//           }
-
-//           return (
-//             <button
-//               key={index}
-//               onClick={() => handleAnswerSelect(answer)}
-//               style={isDisabled ? { ...buttonStyle, ...{ backgroundColor: 'grey', cursor: 'not-allowed' } } : buttonStyle}
-//               disabled={isAnswerCorrect || isDisabled}
-//             >
-//               {answer}
-//             </button>
-//           );
-//         })}
-//         {/* </div> */}
-//         {tryCounter > 0 && !isAnswerCorrect && (
-//           <p>You have tried {tryCounter} time(s). Try again!</p>
-//         )}
-//         {isAnswerCorrect && (
-//           <p>Correct! The answer is {currentQuestion.answers[0]}.</p>
-//         )}
-//       </div>
-//       ) : (
-//         <p>Congratulations! You have completed this lesson.</p>
-//       )};
-//     </div>
-//   );
-// };
 
 export default Questions;
