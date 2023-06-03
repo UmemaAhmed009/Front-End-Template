@@ -170,7 +170,7 @@ export default function Units() {
       {/* Conditional rendering for the button and congratulatory message */}
       {areAllUnitsCompleted && (
         <div>
-          <button onClick={handleCongratsButtonClick} style={{ ...lessonButtonStyles }}>
+          <button onClick={handleCongratsButtonClick} style={{ ...unitButtonStyles }}>
             Go to another class
           </button>
           <Typography variant="h4" sx={{ mt: 3 }}>

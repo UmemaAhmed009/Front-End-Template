@@ -10,7 +10,7 @@ import jwt_decode from 'jwt-decode';
 import { useState, button, useEffect } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography} from '@mui/material';
+import { Grid, Container, Typography, Button} from '@mui/material';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 
 import { CheckCircle } from '@mui/icons-material';
@@ -149,6 +149,7 @@ export default function Lessons() {
     navigate(`/subject/${subjectID}/class/${classID}/units`);
   };
 
+
   return (
     <div style={{
       backgroundImage: 'url(https://img.freepik.com/free-vector/kids-playing-school-compound-park_1308-32285.jpg?w=1380&t=st=1685786732~exp=1685787332~hmac=3601958f512a2ba63a700a74c5c9f5d74a877b2aaead64002498d421447e427b)',
@@ -158,7 +159,11 @@ export default function Lessons() {
       overflow: 'hidden',
       minHeight: '100vh',
     }}>
-
+  
+      <Helmet>
+        <title>Select a Lesson</title>
+      </Helmet>
+  
       <Typography
         variant="h1"
         sx={{
@@ -175,23 +180,27 @@ export default function Lessons() {
       >
         SELECT A LESSON
       </Typography>
-      <Grid container spacing={3} style={{ marginLeft: '10px'}}>
-        {lessons.map(lesson => (
+      <Grid container spacing={3}>
+        {lessons.map((lesson) => (
           <Grid item xs={12} sm={6} md={3} key={lesson._id}>
-            <button onClick={() => handleSelectLesson(lesson.lesson_name)} style={{ ...lessonButtonStyles }}
+            <Button
+              onClick={() => handleSelectLesson(lesson.lesson_name)}
+              style={{ ...lessonButtonStyles }}
               onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}>{lesson.lesson_name}    
-            </button>
+              onMouseLeave={handleMouseLeave}
+            >
+              {lesson.lesson_name} {isLessonCompleted(lesson._id) && <CheckCircle sx={{ color: 'green', marginLeft: '5px' }} />}
+            </Button>
           </Grid>
         ))}
       </Grid>
-
+  
       {/* Conditional rendering for the button and congratulatory message */}
       {areAllLessonsCompleted && (
         <div>
-          <button onClick={handleCongratsButtonClick} style={{ ...lessonButtonStyles }}>
+          <Button onClick={handleCongratsButtonClick} style={{ ...lessonButtonStyles }}>
             Complete another unit
-          </button>
+          </Button>
           <Typography variant="h4" sx={{ mt: 3 }}>
             Congratulations on completing all lessons!
           </Typography>
@@ -199,6 +208,64 @@ export default function Lessons() {
       )}
     </div>
   );
+  
+
+  // return (
+  //   <div style={{
+  //     backgroundImage: 'url(https://img.freepik.com/free-vector/kids-playing-school-compound-park_1308-32285.jpg?w=1380&t=st=1685786732~exp=1685787332~hmac=3601958f512a2ba63a700a74c5c9f5d74a877b2aaead64002498d421447e427b)',
+  //     backgroundSize: 'cover',
+  //     opacity: '0.85',
+  //     backgroundPosition: 'center bottom',
+  //     overflow: 'hidden',
+  //     minHeight: '100vh',
+  //   }}>
+
+  //     <Typography
+  //       variant="h1"
+  //       sx={{
+  //         fontSize: '64px',
+  //         fontFamily: 'Noto Serif',
+  //         color: '#890596',
+  //         fontStyle: 'italic',
+  //         fontWeight: 'bold',
+  //         textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+  //         textAlign: 'center',
+  //         letterSpacing: '2px',
+  //         marginBottom: '40px'
+  //       }}
+  //     >
+  //       SELECT A LESSON
+  //     </Typography>
+  //     <Grid item xs={12} sm={6} md={3} key={lesson._id}>
+  //       {lessons.map((lesson) => {
+  //         return (
+  //           <Grid item xs={12} sm={6} md={3} key={lesson._id}>
+  //             <button
+  //               onClick={() => handleSelectLesson(lesson.lesson_name)}
+  //               style={{ ...lessonButtonStyles }}
+  //               onMouseEnter={handleMouseEnter}
+  //               onMouseLeave={handleMouseLeave}
+  //             >
+  //               {lesson.lesson_name} {isLessonCompleted(lesson._id) && <CheckCircle sx={{ color: 'green', marginLeft: '5px' }} />}
+  //             </button>
+  //           </Grid>
+  //         );
+  //       })}
+  //     </Grid>
+
+  //     {/* Conditional rendering for the button and congratulatory message */}
+  //     {areAllLessonsCompleted && (
+  //       <div>
+  //         <button onClick={handleCongratsButtonClick} style={{ ...lessonButtonStyles }}>
+  //           Complete another unit
+  //         </button>
+  //         <Typography variant="h4" sx={{ mt: 3 }}>
+  //           Congratulations on completing all lessons!
+  //         </Typography>
+  //       </div>
+  //     )}
+  //   </div>
+  // );
 
   // return (
   //   <div>
