@@ -100,7 +100,7 @@ const Questions = () => {
       borderRadius: '8px',
       boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
       transition: 'transform 0.3s ease, background 0.3s ease',
-      cursor: 'pointer',
+      cursor: 'default',
     };
     
     // Add hover effect
@@ -115,7 +115,7 @@ const Questions = () => {
       backgroundColor: '#41D1C6',
       border: 'none',
       borderRadius: '4px',
-      opacity: '0.8',
+      opacity: '0.85',
       color: '#ffffff',
       textDecoration: 'none',
       textTransform: 'uppercase',
@@ -212,15 +212,36 @@ const Questions = () => {
     },
   };
 
+  const containerStyle = {
+    backgroundImage: `url(https://img.freepik.com/premium-vector/abstract-background-scene-product-display-3d-rendering_545205-435.jpg?w=996)`,
+    backgroundSize: 'cover',
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundPosition: 'center 40%',
+    justifyContent: 'center',
+  };
+
   return (
-    <div>
-      <Typography variant="h3" sx={{ mb: 0 }}>
-        Quiz Page!
+    <div style={containerStyle}>
+     <Typography
+        variant="h1"
+        sx={{
+          fontSize: '50px',
+          fontFamily: 'Noto Serif',
+          color: '#890596',
+          fontStyle: 'italic',
+          fontWeight: 'bold',
+          textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+          textAlign: 'center',
+          letterSpacing: '2px',
+          marginBottom: '40px'
+        }}
+      >
+        {currentQuestion.question_details}
       </Typography>
       <div>
-        <Typography variant="h3" sx={{ mb: 1 }}>
-          {currentQuestion.question_details}
-        </Typography>
         {currentQuestion.question_image && (
           <img
             src={currentQuestion.question_image}

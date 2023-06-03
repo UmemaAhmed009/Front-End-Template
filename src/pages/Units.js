@@ -129,12 +129,32 @@ export default function Units() {
   };
 
   return (
-    <div>
-      <Typography variant="h3" sx={{ mb: 5 }}>
-      Units for Subject {subjectID} and Class {classID}
-        </Typography>
+      <div style={{
+          backgroundImage: 'url(https://static.vecteezy.com/system/resources/previews/013/549/621/original/nature-landscape-illustration-with-a-cute-and-colorful-design-suitable-for-kids-background-free-vector.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center bottom',
+          overflow: 'hidden',
+          minHeight: '100vh',
+        }}>
 
-      <Grid container spacing={3}>
+          <Typography
+            variant="h1"
+            sx={{
+              fontSize: '64px',
+              fontFamily: 'Noto Serif',
+              color: '#143F6B',
+              fontStyle: 'italic',
+              fontWeight: 'bold',
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+              textAlign: 'center',
+              letterSpacing: '2px',
+              marginBottom: '40px'
+            }}
+          >
+            SELECT A UNIT
+          </Typography>
+
+      <Grid container spacing={3} style={{ marginLeft: '10px'}}>
         {units.map(unit => (
           <Grid item xs={12} sm={6} md={3} key={unit._id}>
             <button onClick={() => handleSelectUnit(unit.unit_name)} style={{ ...unitButtonStyles }}
