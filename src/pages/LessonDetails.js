@@ -86,7 +86,7 @@ export default function LessonDetails() {
       </Typography>          
           </div>
           <div className="lesson-image-container">
-            <img src={selectedLesson.lessonImage} alt="Lesson" style={{ width: '100%', height: 'auto', maxWidth: '300px' }}/>
+            <img src={selectedLesson.lessonImage} alt="Lesson" style={{ width: '100%', height: 'auto', maxWidth: '500px' }}/>
           </div>
           <div className="quiz-button-container" style={buttonContainerStyle}>
             <button style={buttonStyle} onClick={handleQuizClick}>
