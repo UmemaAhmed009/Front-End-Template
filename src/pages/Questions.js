@@ -100,7 +100,7 @@ const Questions = () => {
       borderRadius: '8px',
       boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
       transition: 'transform 0.3s ease, background 0.3s ease',
-      cursor: 'pointer',
+      cursor: 'default',
     };
     
     // Add hover effect
@@ -115,7 +115,7 @@ const Questions = () => {
       backgroundColor: '#41D1C6',
       border: 'none',
       borderRadius: '4px',
-      opacity: '0.8',
+      opacity: '0.85',
       color: '#ffffff',
       textDecoration: 'none',
       textTransform: 'uppercase',

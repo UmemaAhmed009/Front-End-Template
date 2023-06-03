@@ -126,11 +126,32 @@ export default function Lessons() {
   }, []);
 
   return (
-    <div>
-      <Typography variant="h3" sx={{ mb: 5 }}>
-      Lessons for Subject {subjectID}, Class {classID} and Unit {unitID}
-        </Typography>
-      <Grid container spacing={3}>
+    <div style={{
+      backgroundImage: 'url(https://img.freepik.com/free-vector/kids-playing-school-compound-park_1308-32285.jpg?w=1380&t=st=1685786732~exp=1685787332~hmac=3601958f512a2ba63a700a74c5c9f5d74a877b2aaead64002498d421447e427b)',
+      backgroundSize: 'cover',
+      opacity: '0.85',
+      backgroundPosition: 'center bottom',
+      overflow: 'hidden',
+      minHeight: '100vh',
+    }}>
+
+      <Typography
+        variant="h1"
+        sx={{
+          fontSize: '64px',
+          fontFamily: 'Noto Serif',
+          color: '#890596',
+          fontStyle: 'italic',
+          fontWeight: 'bold',
+          textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+          textAlign: 'center',
+          letterSpacing: '2px',
+          marginBottom: '40px'
+        }}
+      >
+        SELECT A LESSON
+      </Typography>
+      <Grid container spacing={3} style={{ marginLeft: '10px'}}>
         {lessons.map(lesson => (
           <Grid item xs={12} sm={6} md={3} key={lesson._id}>
             <button onClick={() => handleSelectLesson(lesson.lesson_name)} style={{ ...lessonButtonStyles }}

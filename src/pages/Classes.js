@@ -118,11 +118,29 @@ const handleSelectClass = (className) => {
       <Helmet>
         <title> Classes </title>
       </Helmet>
-
+      <div style={{
+          backgroundImage: 'url(https://wallpaperset.com/w/full/a/b/3/238837.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center bottom',
+          minHeight: '100vh',
+        }}>
       <Container maxWidth="xl">
-        <Typography variant="h3" sx={{ mb: 5 }}>
-          Select a class
-        </Typography>
+          <Typography
+            variant="h1"
+            sx={{
+              fontSize: '64px',
+              fontFamily: 'Noto Serif',
+              color: '#C70A80',
+              fontStyle: 'italic',
+              fontWeight: 'bold',
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+              textAlign: 'center',
+              letterSpacing: '2px',
+              marginBottom: '40px'
+            }}
+          >
+            SELECT A CLASS
+          </Typography>
 
         <Grid container spacing={3}>
          
@@ -157,6 +175,7 @@ const handleSelectClass = (className) => {
 
         </Grid>
       </Container>
+      </div>
     </>
   );
 }
