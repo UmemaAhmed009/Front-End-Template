@@ -146,16 +146,6 @@ export default function DashboardAppPage() {
     backgroundColor: '#4CAF50',
   };
 
-
-
-
-
-
-
-
-
-
-
   const navigate = useNavigate();
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [dashboard, setDashboard] = useState(null);
@@ -336,78 +326,6 @@ export default function DashboardAppPage() {
       </div>
     );
   };
-
-//   return (
-//     <>
-//       <Helmet>
-//         <title>Dashboard | Minimal UI</title>
-//       </Helmet>
-  
-//       <Container maxWidth="xl">
-//         <Typography variant="h4" sx={{ mb: 5 }}>
-//           Choose a subject
-//         </Typography>
-  
-//         <Grid container spacing={2}>
-//           {progressData.subjects.map(subject => (
-//             <Grid item xs={12} sm={6} md={3} key={subject._id}>
-//               <button onClick={() => handleSelectSubject(subject._id)} style={{ ...gridButtonStyles }}>
-//                 <img src={subject.image} alt={subject.name} style={gridImageStyles} />
-//               </button>
-//             </Grid>
-//           ))}
-//         </Grid>
-  
-//         {/* Render progress table */}
-//         {progressData.subjects.map(subject => (
-//           <div key={subject._id}>
-//             <h2>Subject: {subject.name}</h2>
-//             {subject.classes.map(classData => (
-//               <div key={classData._id}>
-//                 <h3>Class: {classData._id}</h3>
-//                 {classData.units.map(unit => (
-//                   <div key={unit._id}>
-//                     <h4>Unit: {unit._id}</h4>
-//                     <p>Unit Progress: {unit.unit_progress}</p>
-//                     <p>Total Lessons: {unit.total_lessons}</p>
-//                     <p>Completed Lessons: {unit.completed_lessons}</p>
-//                     <p>Unit Started At: {unit.unit_started_at}</p>
-//                     {unit.is_completed && (
-//                       <p>Unit Completed At: {unit.unit_completed_at}</p>
-//                     )}
-  
-//                     {/* Render lessons */}
-//                     {unit.lessons.map(lesson => (
-//                       <div key={lesson._id}>
-//                         <h5>Lesson: {lesson._id}</h5>
-//                         <p>Lesson Progress: {lesson.lesson_progress}</p>
-//                         <p>Total Questions: {lesson.total_questions}</p>
-//                         <p>Correct Answers: {lesson.correct_answers}</p>
-//                         <p>Total Tries: {lesson.total_tries}</p>
-//                         {lesson.is_completed && (
-//                           <p>Lesson Completed At: {lesson.lesson_completed_at}</p>
-//                         )}
-  
-//                         {/* Render answer status */}
-//                         {lesson.answer_status.map(answer => (
-//                           <div key={answer._id}>
-//                             <p>Question ID: {answer._id}</p>
-//                             <p>Is Correct: {answer.is_correct ? 'Yes' : 'No'}</p>
-//                             <p>Tries: {answer.tries}</p>
-//                           </div>
-//                         ))}
-//                       </div>
-//                     ))}
-//                   </div>
-//                 ))}
-//               </div>
-//             ))}
-//           </div>
-//         ))}
-//       </Container>
-//     </>
-//   );
-// }  
 
   return (
     <>
