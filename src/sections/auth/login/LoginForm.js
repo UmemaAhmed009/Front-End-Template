@@ -20,7 +20,7 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClick = () => {
-    navigate('/dashboard', { replace: true });
+    navigate('/dashboard/app', { replace: true });
   };
   const handleSubmit = (e) => {
     // prevent the form from refreshing the whole page
@@ -45,7 +45,7 @@ export default function LoginForm() {
         cookies.set("refreshToken", result.data.refreshToken, {
           path: "/",
         });
-        window.location.href = "/dashboard"
+        window.location.href = "/dashboard/app"
       })
       .catch((error) => {
         error = new Error();

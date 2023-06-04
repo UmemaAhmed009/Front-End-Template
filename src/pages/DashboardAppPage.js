@@ -13,6 +13,7 @@ import jwt_decode from 'jwt-decode';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { motion } from 'framer-motion';
 
 // components
 import Iconify from '../components/iconify';
@@ -50,47 +51,106 @@ const gridImageStyles = {
   height: '150px',
 };
 
-const progressContainerStyles = {
-  marginTop: '20px',
-};
+// const progressContainerStyles = {
+//   marginTop: '20px',
+// };
 
-const subjectStyles = {
-  fontSize: '24px',
-  fontWeight: 'bold',
-  marginBottom: '10px',
-  color: '#000000',
-};
+// const subjectStyles = {
+//   fontSize: '24px',
+//   fontWeight: 'bold',
+//   marginBottom: '10px',
+//   color: '#000000',
+// };
 
-const classStyles = {
-  fontSize: '20px',
-  marginBottom: '10px',
-  color: '#000000',
-};
+// const classStyles = {
+//   fontSize: '20px',
+//   marginBottom: '10px',
+//   color: '#000000',
+// };
 
-const unitStyles = {
-  fontWeight: 'bold',
-  marginBottom: '10px',
-  color: '#000000',
-};
+// const unitStyles = {
+//   fontWeight: 'bold',
+//   marginBottom: '10px',
+//   color: '#000000',
+// };
 
 const lessonStyles = {
   marginBottom: '10px',
 };
 
-const lessonCompletedStyles = {
-  display: 'flex',
-  alignItems: 'center',
-};
+// const lessonCompletedStyles = {
+//   display: 'flex',
+//   alignItems: 'center',
+// };
 
-const lessonIconStyles = {
-  marginRight: '5px',
-};
+// const lessonIconStyles = {
+//   marginRight: '5px',
+// };
 
 
 
 
 export default function DashboardAppPage() {
   const theme = useTheme();
+
+  const progressContainerStyles = {
+    fontFamily: 'Arial, sans-serif',
+    color: '#000000',
+  };
+
+  const subjectStyles = {
+    fontSize: '18px',
+    fontWeight: 'bold',
+    marginBottom: '10px',
+  };
+
+  const classStyles = {
+    fontSize: '16px',
+    fontWeight: 'bold',
+    marginBottom: '8px',
+  };
+
+  const unitStyles = {
+    fontSize: '14px',
+    fontWeight: 'bold',
+    marginBottom: '8px',
+  };
+
+  const lessonCompletedStyles = {
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: '12px',
+    marginBottom: '5px',
+  };
+
+  const lessonIconStyles = {
+    color: '#4CAF50',
+    marginRight: '5px',
+  };
+
+  const progressBarStyles = {
+    display: 'flex',
+    alignItems: 'center',
+    height: '10px',
+    backgroundColor: '#E0E0E0',
+    borderRadius: '5px',
+    overflow: 'hidden',
+  };
+
+  const progressStyles = {
+    height: '100%',
+    backgroundColor: '#4CAF50',
+  };
+
+
+
+
+
+
+
+
+
+
 
   const navigate = useNavigate();
   const [selectedSubject, setSelectedSubject] = useState(null);
@@ -260,6 +320,18 @@ export default function DashboardAppPage() {
     fetchData();
   }, [dashboard]);
 
+  const renderProgressBar = (progress) => {
+    return (
+      <div style={progressBarStyles}>
+        <motion.div
+          style={{ width: `${progress}%`, ...progressStyles }}
+          initial={{ width: '0%' }}
+          animate={{ width: `${progress}%` }}
+          transition={{ duration: 0.5 }}
+        ></motion.div>
+      </div>
+    );
+  };
 
 //   return (
 //     <>
@@ -371,10 +443,9 @@ export default function DashboardAppPage() {
 
       
           <div style={progressContainerStyles}>
-      <h3 style={{ color: '#000000' }}>Progress Grid</h3>
       {dashboard && dashboard.subjects ? (
         dashboard.subjects.map((subject, subjectIndex) => (
-          <div
+          <motion.div
             key={subject._id}
             style={{
               backgroundColor: '#79E0EE',
@@ -382,10 +453,13 @@ export default function DashboardAppPage() {
               borderRadius: '10px',
               marginBottom: '20px',
             }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: subjectIndex * 0.2 }}
           >
             <h4 style={subjectStyles}>{subjectNames[subjectIndex]}</h4>
             {subject.classes.map((classItem, classIndex) => (
-              <div
+              <motion.div
                 key={classItem._id}
                 style={{
                   backgroundColor: '#B6EAFA',
@@ -393,10 +467,13 @@ export default function DashboardAppPage() {
                   borderRadius: '10px',
                   marginBottom: '15px',
                 }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: classIndex * 0.1 }}
               >
                 <h5 style={classStyles}>{classNames[classIndex]}</h5>
                 {classItem.units.map((unit, unitIndex) => (
-                  <div
+                  <motion.div
                     key={unit._id}
                     style={{
                       backgroundColor: '#F3E7D4',
@@ -404,11 +481,15 @@ export default function DashboardAppPage() {
                       borderRadius: '10px',
                       marginBottom: '10px',
                     }}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: unitIndex * 0.05 }}
                   >
                     <h6 style={unitStyles}>
                       {unitNames[unitIndex]} 
                       <br />
-                      Unit Progress: {unit.unit_progress}%
+                      Unit Progress:
+                      {renderProgressBar(unit.unit_progress)}
                     </h6>
                     <div>
                       <p>Completed Lessons: {unit.completed_lessons}/{unit.total_lessons}</p>
@@ -419,7 +500,7 @@ export default function DashboardAppPage() {
                       )}
                     </div>
                     {unit.lessons.map((lesson) => (
-                      <div
+                      <motion.div
                         key={lesson._id}
                         style={{
                           backgroundColor: lesson.is_completed ? '#D0F5BE' : '#FDECEC',
@@ -427,6 +508,9 @@ export default function DashboardAppPage() {
                           borderRadius: '5px',
                           marginBottom: '5px',
                         }}
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
                       >
                         <p style={lessonCompletedStyles}>
                           {lesson.is_completed ? (
@@ -436,21 +520,25 @@ export default function DashboardAppPage() {
                           )}
                           Lesson {lesson._id}: {lessonNames[lesson._id]}
                         </p>
-                        {lesson.is_completed && (
-                          <>
-                            <p>Lesson Progress: {lesson.lesson_progress}%</p>
-                            <p>Correct Answers: {lesson.correct_answers}/{lesson.total_questions}</p>
-                            <p>Total Tries: {lesson.total_tries}</p>
-                            <p>Lesson Completed At: {formatTimestamp(lesson.lesson_completed_at)}</p>
-                          </>
-                        )}
-                      </div>
+                        <div>
+                          {lesson.is_completed && (
+                            <>
+                              {/* <p>Correct Answers: {lesson.correct_answers}/{lesson.total_questions}</p> */}
+                              <p>Total Incorrect Tries: {lesson.total_tries}</p>
+                              <p>Lesson Completed At: {formatTimestamp(lesson.lesson_completed_at)}</p>
+                            </>
+                          )}
+                          <p>Lesson Progress:
+                            {renderProgressBar(lesson.lesson_progress)}
+                          </p>
+                        </div>
+                      </motion.div>
                     ))}
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         ))
       ) : (
         <p>Start a course!</p>

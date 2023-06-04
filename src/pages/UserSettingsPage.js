@@ -18,11 +18,9 @@ import jwt_decode from 'jwt-decode';
 export default function UserSettingsPage() {
   const [user, setUser] = useState(null);
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [age, setAge] = useState('');
-  const [errorEmail, setErrorEmail] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
   const [errorConfirmPassword, setErrorConfirmPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -45,7 +43,6 @@ export default function UserSettingsPage() {
           console.log('User', user);
           setUser(user);
           setName(user.name);
-          setEmail(user.email);
           setAge(user.age);
         } catch (error) {
           console.error('Error fetching user data:', error);
@@ -56,11 +53,6 @@ export default function UserSettingsPage() {
     fetchUserData();
     console.log("USER ID", userId)
   }, [accessToken]);
-
-  const isValidEmail = (value) => {
-    const emailRegex = /^\S+@\S+\.\S+$/;
-    return emailRegex.test(value);
-  };
 
   const isValidPassword = (value) => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$/;
@@ -74,11 +66,6 @@ export default function UserSettingsPage() {
   
   const handleNameChange = (event) => {
     setName(event.target.value);
-  };
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-    setErrorEmail(false);
   };
 
   const handlePasswordChange = (event) => {
@@ -97,12 +84,10 @@ export default function UserSettingsPage() {
 
   const handleSaveChanges = () => {
     console.log("USER ID PUT", user._id)
-    if (!email || email === user.email || isValidEmail(email)) {
       if (!password || password === '********' || isValidPassword(password)) {
         if (password === confirmPassword) {
           // TODO: Perform update logic here
           console.log('Name:', name);
-          console.log('Email:', email);
           console.log('Password:', password);
           console.log('Age:', age);
 
@@ -112,7 +97,6 @@ export default function UserSettingsPage() {
           axios
             .put(`http://localhost:3000/user/${user._id}`, {
               name: name,
-              email: email,
               password: updatedPassword,
               age: age,
             })
@@ -150,14 +134,6 @@ export default function UserSettingsPage() {
           setErrorMessage('');
         }, 3000);
       }
-    } else {
-      // Invalid email
-      setErrorEmail(true);
-      setErrorMessage('Invalid email. Please enter a valid email address.');
-      setTimeout(() => {
-        setErrorMessage('');
-      }, 3000);
-    }
   };
 
   return (
@@ -180,17 +156,7 @@ export default function UserSettingsPage() {
                 variant="outlined"
               />
             </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                label="Email"
-                value={email}
-                onChange={handleEmailChange}
-                fullWidth
-                variant="outlined"
-                error={errorEmail}
-                helperText={errorEmail && 'Please enter a valid email address.'}
-              />
-            </Grid>
+            
             <Grid item xs={12} md={6}>
               <TextField
                 label="Password"

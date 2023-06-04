@@ -73,9 +73,9 @@ export default function AccountPopover() {
 
   const handleClose = (optionIndex) => {
     if (optionIndex == 0) {
-      navigate(`/subject`); // Navigate to the Home page
+      navigate(`/dashboard/app`); // Navigate to the Home page
     } else if (optionIndex == 1) {
-      navigate(`/subject`);; // Navigate to the Profile page
+      navigate(`/user-profile`);; // Navigate to the Profile page
     } else if (optionIndex == 2) {
       navigate('/user-settings'); // Navigate to the Settings page
     }
