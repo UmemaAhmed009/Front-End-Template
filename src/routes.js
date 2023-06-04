@@ -20,6 +20,7 @@ import AnsweredQuestions from './pages/Answered_Questions';
 import ProtectedRoutes from "./ProtectedRoutes";
 import AuthComponent from './AuthComponent';
 import UserSettingsPage from './pages/UserSettingsPage';
+import AuthMiddleware from './sections/auth/login/AuthMiddleware';
 
 // ----------------------------------------------------------------------
 
@@ -30,7 +31,7 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
-        { path: 'app', element: <DashboardAppPage /> },
+        { path: 'app', element: <AuthMiddleware><DashboardAppPage /></AuthMiddleware> },
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
@@ -46,35 +47,35 @@ export default function Router() {
     },
     {
       path: '/user-settings',
-      element: <UserSettingsPage/>,
+      element: <AuthMiddleware><UserSettingsPage /></AuthMiddleware>,
     },
     {
       path: '/subject',
-      element: <Subjects/>,
+      element: <AuthMiddleware><Subjects/></AuthMiddleware>,
     },
     {
       path: '/subject/:subjectID/classes',
-      element: <Classes/>,
+      element: <AuthMiddleware><Classes/></AuthMiddleware>,
     },
     {
       path: '/subject/:subjectID/class/:classID/units',
-      element: <Units/>,
+      element: <AuthMiddleware><Units/></AuthMiddleware>,
     },
     {
       path:'/subject/:subjectID/class/:classID/unit/:unitID/lessons',
-      element: <Lessons/>,
+      element: <AuthMiddleware><Lessons/></AuthMiddleware>,
     },
     {
       path:'/subject/:subjectID/class/:classID/unit/:unitID/lesson/:lessonID/lesson-details',
-      element: <LessonDetails/>,
+      element: <AuthMiddleware><LessonDetails/></AuthMiddleware>,
     },
     {
       path: '/subject/:subjectID/class/:classID/unit/:unitID/lesson/:lessonID/lesson-details/question',
-      element: <Questions/>,
+      element: <AuthMiddleware><Questions/></AuthMiddleware>,
     },
     {
       path: '/subject/:subjectID/class/:classID/unit/:unitID/lesson/:lessonID/lesson-details/answered-questions',
-      element: <AnsweredQuestions/>,
+      element: <AuthMiddleware><AnsweredQuestions/></AuthMiddleware>,
     },
     {
       element: <SimpleLayout />,

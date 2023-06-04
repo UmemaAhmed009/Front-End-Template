@@ -1,5 +1,9 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import axios from 'axios';
+import { useState, useEffect} from 'react';
+import { Cookies } from 'react-cookie';
+/* eslint-disable */
+import jwt_decode from 'jwt-decode';
 import { useLocation } from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
@@ -37,6 +41,31 @@ Nav.propTypes = {
 export default function Nav({ openNav, onCloseNav }) {
   const { pathname } = useLocation();
 
+  const [user, setUser] = useState(null);
+  const cookies = new Cookies();
+  const accessToken = cookies.get('accessToken');
+  let userId = null;
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (accessToken) {
+        try {
+          const decodedToken = jwt_decode(accessToken);
+          userId = decodedToken.userId;
+          const response = await axios.get(`http://localhost:3000/user/${userId}`);
+          const user = response.data;
+          console.log("User", user);
+          setUser(user);
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [accessToken]);
+
+
   const isDesktop = useResponsive('up', 'lg');
 
   useEffect(() => {
@@ -64,7 +93,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {user?.name}
               </Typography>
 
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>

@@ -57,14 +57,23 @@ const handleMouseLeave = (e) => {
   e.target.style.transform = 'scale(1)';
 };
 
+const cookies = new Cookies();
+
+
+
 
 export default function Classes() {
 
 const navigate = useNavigate();
+
+
+
+
+
 const [selectedClass, setSelectedClass] = useState(null);
 const { subjectID } = useParams(); // extracting subject id from url
 let classID=null;
-const cookies = new Cookies();
+
 
 const handleSelectClass = (className) => {
   

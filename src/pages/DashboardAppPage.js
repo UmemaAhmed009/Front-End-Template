@@ -86,6 +86,9 @@ const lessonIconStyles = {
   marginRight: '5px',
 };
 
+
+
+
 export default function DashboardAppPage() {
   const theme = useTheme();
 
@@ -163,6 +166,101 @@ export default function DashboardAppPage() {
     return date.toLocaleString();
   };
 
+  const formatTimeTaken = (startTime, endTime) => {
+    if (!startTime || !endTime) return '';
+  
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+  
+    const duration = end - start;
+    const hours = Math.floor(duration / (1000 * 60 * 60));
+    const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((duration % (1000 * 60)) / 1000);
+  
+    return `${hours}h ${minutes}m ${seconds}s`;
+  };
+
+  const fetchSubjectName = async (subjectId) => {
+    try {
+      const response = await axios.get(`http://localhost:3000/subject/${subjectId}/subject_name`);
+      return response.data; // Assuming the name is returned in the response as a property named "name"
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+  
+  const fetchClassName = async (classId) => {
+    try {
+      const response = await axios.get(`http://localhost:3000/class/${classId}/class_name`);
+      return response.data; // Assuming the name is returned in the response as a property named "name"
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+  
+  const fetchUnitName = async (unitId) => {
+    try {
+      const response = await axios.get(`http://localhost:3000/unit/${unitId}/unit_name`);
+      return response.data; // Assuming the name is returned in the response as a property named "name"
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+  
+  const fetchLessonName = async (lessonId) => {
+    try {
+      const response = await axios.get(`http://localhost:3000/lesson/${lessonId}/lesson_name`);
+      return response.data; // Assuming the name is returned in the response as a property named "name"
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+  
+  const [subjectNames, setSubjectNames] = useState([]);
+  const [classNames, setClassNames] = useState([]);
+  const [unitNames, setUnitNames] = useState([]);
+  const [lessonNames, setLessonNames] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const subjects = dashboard.subjects || [];
+        const subjectNames = await Promise.all(subjects.map((subject) => fetchSubjectName(subject._id)));
+        setSubjectNames(subjectNames);
+
+        const classNames = await Promise.all(
+          subjects.flatMap((subject) => subject.classes.map((classItem) => fetchClassName(classItem._id)))
+        );
+        setClassNames(classNames);
+
+        const unitNames = await Promise.all(
+          subjects.flatMap((subject) =>
+            subject.classes.flatMap((classItem) => classItem.units.map((unit) => fetchUnitName(unit._id)))
+          )
+        );
+        setUnitNames(unitNames);
+
+        const lessonNames = await Promise.all(
+          subjects.flatMap((subject) =>
+            subject.classes.flatMap((classItem) =>
+              classItem.units.flatMap((unit) => unit.lessons.map((lesson) => fetchLessonName(lesson._id)))
+            )
+          )
+        );
+        setLessonNames(lessonNames);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [dashboard]);
+
+
 //   return (
 //     <>
 //       <Helmet>
@@ -238,7 +336,7 @@ export default function DashboardAppPage() {
   return (
     <>
       <Helmet>
-        <title>Fun 2 Learn</title>
+        <title>Fun2Learn</title>
       </Helmet>
 
       <Container maxWidth="xl">
@@ -275,7 +373,7 @@ export default function DashboardAppPage() {
           <div style={progressContainerStyles}>
       <h3 style={{ color: '#000000' }}>Progress Grid</h3>
       {dashboard && dashboard.subjects ? (
-        dashboard.subjects.map((subject) => (
+        dashboard.subjects.map((subject, subjectIndex) => (
           <div
             key={subject._id}
             style={{
@@ -285,8 +383,8 @@ export default function DashboardAppPage() {
               marginBottom: '20px',
             }}
           >
-            <h4 style={subjectStyles}>{subject.name}</h4>
-            {subject.classes.map((classItem) => (
+            <h4 style={subjectStyles}>{subjectNames[subjectIndex]}</h4>
+            {subject.classes.map((classItem, classIndex) => (
               <div
                 key={classItem._id}
                 style={{
@@ -296,8 +394,8 @@ export default function DashboardAppPage() {
                   marginBottom: '15px',
                 }}
               >
-                <h5 style={classStyles}>{classItem.name}</h5>
-                {classItem.units.map((unit) => (
+                <h5 style={classStyles}>{classNames[classIndex]}</h5>
+                {classItem.units.map((unit, unitIndex) => (
                   <div
                     key={unit._id}
                     style={{
@@ -308,13 +406,16 @@ export default function DashboardAppPage() {
                     }}
                   >
                     <h6 style={unitStyles}>
-                      {unit.name} Unit Progress: {unit.unit_progress}%
+                      {unitNames[unitIndex]} 
+                      <br />
+                      Unit Progress: {unit.unit_progress}%
                     </h6>
                     <div>
                       <p>Completed Lessons: {unit.completed_lessons}/{unit.total_lessons}</p>
-                      <p>Unit Started At: {formatTimestamp(unit.unit_started_at)}</p>
-                      {unit.is_completed && (
-                        <p>Unit Completed At: {formatTimestamp(unit.unit_completed_at)}</p>
+                      {unit.is_completed ? (
+                        <p>Time Taken: {formatTimeTaken(unit.unit_started_at, unit.unit_completed_at)}</p>
+                      ) : (
+                        <p>Unit Started At: {formatTimestamp(unit.unit_started_at)}</p>
                       )}
                     </div>
                     {unit.lessons.map((lesson) => (
@@ -333,7 +434,7 @@ export default function DashboardAppPage() {
                           ) : (
                             <CircularProgress size={12} />
                           )}
-                          Lesson {lesson._id}: {lesson.is_completed ? 'Completed' : 'In Progress'}
+                          Lesson {lesson._id}: {lessonNames[lesson._id]}
                         </p>
                         {lesson.is_completed && (
                           <>
@@ -352,11 +453,9 @@ export default function DashboardAppPage() {
           </div>
         ))
       ) : (
-        <p>Loading progress data...</p>
+        <p>Start a course!</p>
       )}
     </div>
-
-
 
           {/* <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits

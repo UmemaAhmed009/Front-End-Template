@@ -7,6 +7,7 @@ import jwt_decode from 'jwt-decode';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 // mocks_
 
@@ -30,9 +31,12 @@ const MENU_OPTIONS = [
   },
 ];
 
+
+
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+
   const [open, setOpen] = useState(null);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -77,6 +81,22 @@ export default function AccountPopover() {
     }
 
     setOpen(null);
+  };
+
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [logoutSuccess, setLogoutSuccess] = useState(false);
+  
+  const handleLogout = () => {
+    setIsLoggingOut(true);
+  
+    // Simulate a delay before clearing the access token and redirecting to the login page
+    setTimeout(() => {
+      cookies.remove("accessToken", { path: "/" })
+      cookies.remove("refreshToken", { path: "/" })
+      setIsLoggingOut(false);
+      setLogoutSuccess(true);
+      navigate('/login');
+    }, 2000); // Adjust the delay as needed
   };
 
   return (
@@ -141,9 +161,21 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
-          Logout
-        </MenuItem>
+        <div>
+        {isLoggingOut ? (
+          <Typography variant="body2" sx={{ textAlign: 'center' }}>
+            Logging out...
+          </Typography>
+        ) : logoutSuccess ? (
+          <Typography variant="body2" sx={{ textAlign: 'center' }}>
+            Logout successful. Redirecting to login page...
+          </Typography>
+        ) : (
+          <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
+            Logout
+          </MenuItem>
+        )}
+        </div>
       </Popover>
     </>
   );
