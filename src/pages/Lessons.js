@@ -171,10 +171,10 @@ export default function Lessons() {
 
   return (
     <div style={{
-      backgroundImage: 'url(https://img.freepik.com/premium-vector/rainbow-star-pastel-kids-background-014_615845-619.jpg?w=2000)',
+      backgroundImage: 'url(https://img.freepik.com/premium-vector/girl-her-friend-talking-with-blank-bubble-speech_33070-5611.jpg?w=740)',
       backgroundSize: 'cover',
       opacity: '0.85',
-      backgroundPosition: 'center bottom',
+      backgroundPosition: 'center 50%',
       overflow: 'hidden',
       minHeight: '100vh',
     }}>
@@ -187,9 +187,8 @@ export default function Lessons() {
         variant="h1"
         sx={{
           fontSize: '64px',
-          fontFamily: 'Noto Serif',
+          fontFamily: 'Alice',
           color: '#890596',
-          fontStyle: 'italic',
           fontWeight: 'bold',
           textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
           textAlign: 'center',
@@ -199,7 +198,7 @@ export default function Lessons() {
       >
         SELECT A LESSON
       </Typography>
-      <Grid container spacing={3}>
+      <Grid container spacing={3} style={{ marginLeft: '10px'}}>
         {lessons.map((lesson) => (
           <Grid item xs={12} sm={6} md={3} key={lesson._id}>
             <Button

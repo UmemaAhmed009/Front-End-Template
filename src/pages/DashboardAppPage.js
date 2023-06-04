@@ -4,12 +4,15 @@ import axios from 'axios';
 import { useState, useEffect, Button } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
+import { Grid, Container, Typography, CircularProgress } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
 
 import { Cookies } from 'react-cookie';
 /* eslint-disable */
 import jwt_decode from 'jwt-decode';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 // components
 import Iconify from '../components/iconify';
@@ -47,6 +50,41 @@ const gridImageStyles = {
   height: '150px',
 };
 
+const progressContainerStyles = {
+  marginTop: '20px',
+};
+
+const subjectStyles = {
+  fontSize: '24px',
+  fontWeight: 'bold',
+  marginBottom: '10px',
+  color: '#000000',
+};
+
+const classStyles = {
+  fontSize: '20px',
+  marginBottom: '10px',
+  color: '#000000',
+};
+
+const unitStyles = {
+  fontWeight: 'bold',
+  marginBottom: '10px',
+  color: '#000000',
+};
+
+const lessonStyles = {
+  marginBottom: '10px',
+};
+
+const lessonCompletedStyles = {
+  display: 'flex',
+  alignItems: 'center',
+};
+
+const lessonIconStyles = {
+  marginRight: '5px',
+};
 
 export default function DashboardAppPage() {
   const theme = useTheme();
@@ -230,53 +268,93 @@ export default function DashboardAppPage() {
             <img src="https://img.freepik.com/free-vector/scientist-working-with-science-tools-lab_1308-37836.jpg?w=740&t=st=1685034819~exp=1685035419~hmac=0968ac54bafacbf7e2d69b8ba9c4dcdd7adb1e2faade8389bfd6b0e949f5b8cf" alt="Science" style={gridImageStyles} />
           </button>
           </Grid>
-
+        </Grid>
           {/* Progress Grid */}
-          <Grid item xs={12} sm={6} md={3}>
-            <div>
-              <h3>Progress Grid</h3>
-              {dashboard && dashboard.subjects ? (
-                dashboard.subjects.map(subject => (
-                  <div key={subject._id}>
-                    <h4>{subject.name}</h4>
-                    {subject.classes.map(classItem => (
-                      <div key={classItem._id}>
-                        <h5>{classItem.name}</h5>
-                        {classItem.units.map(unit => (
-                          <div key={unit._id}>
-                            <h6>{unit.name}</h6>
-                            <div>
-                              <p>Unit Progress: {unit.unit_progress}%</p>
-                              <p>Completed Lessons: {unit.completed_lessons}/{unit.total_lessons}</p>
-                              <p>Unit Started At: {formatTimestamp(unit.unit_started_at)}</p>
-                              {unit.is_completed && (
-                                <p>Unit Completed At: {formatTimestamp(unit.unit_completed_at)}</p>
-                              )}
-                            </div>
-                            {unit.lessons.map(lesson => (
-                              <div key={lesson._id}>
-                                <p>Lesson {lesson._id}: {lesson.is_completed ? 'Completed' : 'In Progress'}</p>
-                                {lesson.is_completed && (
-                                  <>
-                                    <p>Lesson Progress: {lesson.lesson_progress}%</p>
-                                    <p>Correct Answers: {lesson.correct_answers}/{lesson.total_questions}</p>
-                                    <p>Total Tries: {lesson.total_tries}</p>
-                                    <p>Lesson Completed At: {formatTimestamp(lesson.lesson_completed_at)}</p>
-                                  </>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        ))}
+
+      
+          <div style={progressContainerStyles}>
+      <h3 style={{ color: '#000000' }}>Progress Grid</h3>
+      {dashboard && dashboard.subjects ? (
+        dashboard.subjects.map((subject) => (
+          <div
+            key={subject._id}
+            style={{
+              backgroundColor: '#79E0EE',
+              padding: '20px',
+              borderRadius: '10px',
+              marginBottom: '20px',
+            }}
+          >
+            <h4 style={subjectStyles}>{subject.name}</h4>
+            {subject.classes.map((classItem) => (
+              <div
+                key={classItem._id}
+                style={{
+                  backgroundColor: '#B6EAFA',
+                  padding: '15px',
+                  borderRadius: '10px',
+                  marginBottom: '15px',
+                }}
+              >
+                <h5 style={classStyles}>{classItem.name}</h5>
+                {classItem.units.map((unit) => (
+                  <div
+                    key={unit._id}
+                    style={{
+                      backgroundColor: '#F3E7D4',
+                      padding: '10px',
+                      borderRadius: '10px',
+                      marginBottom: '10px',
+                    }}
+                  >
+                    <h6 style={unitStyles}>
+                      {unit.name} Unit Progress: {unit.unit_progress}%
+                    </h6>
+                    <div>
+                      <p>Completed Lessons: {unit.completed_lessons}/{unit.total_lessons}</p>
+                      <p>Unit Started At: {formatTimestamp(unit.unit_started_at)}</p>
+                      {unit.is_completed && (
+                        <p>Unit Completed At: {formatTimestamp(unit.unit_completed_at)}</p>
+                      )}
+                    </div>
+                    {unit.lessons.map((lesson) => (
+                      <div
+                        key={lesson._id}
+                        style={{
+                          backgroundColor: lesson.is_completed ? '#D0F5BE' : '#FDECEC',
+                          padding: '5px',
+                          borderRadius: '5px',
+                          marginBottom: '5px',
+                        }}
+                      >
+                        <p style={lessonCompletedStyles}>
+                          {lesson.is_completed ? (
+                            <FontAwesomeIcon icon={faCheckCircle} style={lessonIconStyles} />
+                          ) : (
+                            <CircularProgress size={12} />
+                          )}
+                          Lesson {lesson._id}: {lesson.is_completed ? 'Completed' : 'In Progress'}
+                        </p>
+                        {lesson.is_completed && (
+                          <>
+                            <p>Lesson Progress: {lesson.lesson_progress}%</p>
+                            <p>Correct Answers: {lesson.correct_answers}/{lesson.total_questions}</p>
+                            <p>Total Tries: {lesson.total_tries}</p>
+                            <p>Lesson Completed At: {formatTimestamp(lesson.lesson_completed_at)}</p>
+                          </>
+                        )}
                       </div>
                     ))}
                   </div>
-                ))
-              ) : (
-                <p>Loading progress data...</p>
-              )}
-            </div>
-          </Grid>
+                ))}
+              </div>
+            ))}
+          </div>
+        ))
+      ) : (
+        <p>Loading progress data...</p>
+      )}
+    </div>
 
 
 
@@ -443,7 +521,7 @@ export default function DashboardAppPage() {
           </Grid> */}
 
 
-        </Grid>
+        
       </Container>
     </>
   );

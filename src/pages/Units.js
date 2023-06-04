@@ -151,7 +151,7 @@ export default function Units() {
 
   return (
       <div style={{
-          backgroundImage: 'url(https://static.vecteezy.com/system/resources/previews/013/549/621/original/nature-landscape-illustration-with-a-cute-and-colorful-design-suitable-for-kids-background-free-vector.jpg)',
+          backgroundImage: 'url(https://img.freepik.com/premium-vector/cute-kids-background-vector_641091-221.jpg?w=1060)',
           backgroundSize: 'cover',
           backgroundPosition: 'center bottom',
           overflow: 'hidden',
@@ -162,9 +162,8 @@ export default function Units() {
             variant="h1"
             sx={{
               fontSize: '64px',
-              fontFamily: 'Noto Serif',
+              fontFamily: 'Alice',
               color: '#143F6B',
-              fontStyle: 'italic',
               fontWeight: 'bold',
               textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
               textAlign: 'center',

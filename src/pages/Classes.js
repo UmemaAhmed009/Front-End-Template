@@ -119,9 +119,9 @@ const handleSelectClass = (className) => {
         <title> Classes </title>
       </Helmet>
       <div style={{
-          backgroundImage: 'url(https://wallpaperset.com/w/full/a/b/3/238837.jpg)',
+          backgroundImage: 'url(https://img.freepik.com/free-vector/hand-drawn-children-s-day-spanish-background_23-2149299343.jpg?w=996&t=st=1685873081~exp=1685873681~hmac=9c37bf2a112bf9f56a0d515d2614210d55a7d8ce880f4be56ed16655c1a1c0bd)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center bottom',
+          backgroundPosition: 'center 80%',
           minHeight: '100vh',
         }}>
       <Container maxWidth="xl">
@@ -129,9 +129,8 @@ const handleSelectClass = (className) => {
             variant="h1"
             sx={{
               fontSize: '64px',
-              fontFamily: 'Noto Serif',
+              fontFamily: 'Alice',
               color: '#C70A80',
-              fontStyle: 'italic',
               fontWeight: 'bold',
               textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
               textAlign: 'center',
