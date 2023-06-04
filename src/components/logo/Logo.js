@@ -22,7 +22,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
     <Box
       component="img"
       src="https://1.bp.blogspot.com/_8gvzLSkMnDM/SxZM5EA0ZvI/AAAAAAAAADY/T9PZ5I2W4Ao/S1600-R/fun2learn_logo.png" 
-      sx={{ width: 150, height: 100, cursor: 'pointer', ...sx }}
+      sx={{ width: 150, height: 50, cursor: 'pointer', ...sx }}
     />
   );
 

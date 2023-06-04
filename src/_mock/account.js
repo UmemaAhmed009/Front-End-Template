@@ -1,9 +1,9 @@
 // ----------------------------------------------------------------------
 
 const account = {
-  displayName: 'Jaydon Frankie',
+  displayName: 'Test User',
   email: 'demo@minimals.cc',
-  photoURL: '/assets/images/avatars/avatar_default.jpg',
+  photoURL: 'https://pbs.twimg.com/media/EeQ-AOlXoAAXvb-.png:large',
 };
 
 export default account;
