@@ -350,7 +350,7 @@ export default function DashboardAppPage() {
             {/* <AppWidgetSummary title="Maths"  icon={'ant-design:android-filled'} /> */}
             <img src="https://img.freepik.com/premium-vector/two-boy-reading-book-learning-mathematics_33070-4736.jpg?size=626&ext=jpg&ga=GA1.1.2091757336.1680171558&semt=ais" alt="Maths" style={gridImageStyles} />
           </button>
-          <Typography variant="subtitle1" sx={{ mb: 5 }}>
+          <Typography variant="h6" sx={{ mb: 5, marginLeft: '50px' }}>
            Mathematics
           </Typography>
           </Grid>
@@ -361,7 +361,7 @@ export default function DashboardAppPage() {
             {/* <AppWidgetSummary title="English" color="info" icon={'ant-design:apple-filled'} /> */}
             <img src="https://img.freepik.com/free-vector/hand-drawn-vowels-illustration_23-2150138582.jpg?w=740&t=st=1685906321~exp=1685906921~hmac=85fb6d2f7b4df45d8739a54c70e11fe73f7eb16d5e535d7d37513323f875b484" alt="English" style={gridImageStyles} />
             </button>
-            <Typography variant="subtitle1" sx={{ mb: 5 }}>
+            <Typography variant="h6" sx={{ mb: 5, marginLeft: '50px' }}>
            English
           </Typography>
           </Grid>
@@ -371,7 +371,7 @@ export default function DashboardAppPage() {
             {/* <AppWidgetSummary title="Science" color="warning" icon={'ant-design:windows-filled'} /> */}
             <img src="https://img.freepik.com/free-vector/two-students-science-experiment_1308-3278.jpg?size=626&ext=jpg&ga=GA1.1.2091757336.1680171558&semt=ais" alt="Science" style={gridImageStyles} />
           </button>
-          <Typography variant="subtitle1" sx={{ mb: 5 }}>
+          <Typography variant="h6" sx={{ mb: 5, marginLeft: '50px' }}>
            Science
           </Typography>
           </Grid>
