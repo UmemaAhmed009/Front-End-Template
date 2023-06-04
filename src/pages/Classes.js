@@ -119,9 +119,9 @@ const handleSelectClass = (className) => {
         <title> Classes </title>
       </Helmet>
       <div style={{
-          backgroundImage: 'url(https://img.freepik.com/free-photo/plasticine-clay-patterned-background-white-colorful-border-diy-creative-art-kids_53876-146296.jpg?w=996&t=st=1685870124~exp=1685870724~hmac=7356ad4d706664f8fe84318821b513dd14ecf274106fa4dffcce64ed769bee96)',
+          backgroundImage: 'url(https://img.freepik.com/free-vector/hand-drawn-children-s-day-spanish-background_23-2149299343.jpg?w=996&t=st=1685873081~exp=1685873681~hmac=9c37bf2a112bf9f56a0d515d2614210d55a7d8ce880f4be56ed16655c1a1c0bd)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center 60%',
+          backgroundPosition: 'center 80%',
           minHeight: '100vh',
         }}>
       <Container maxWidth="xl">
