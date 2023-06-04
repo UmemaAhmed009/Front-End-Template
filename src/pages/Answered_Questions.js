@@ -45,7 +45,7 @@ const kidImage ={
   position: 'absolute',
   top: 0,
   right: 0,
-  width: '700px',
+  width: '650px',
   height: 'auto',
   marginRight: '20px',
   marginTop: '100px',
