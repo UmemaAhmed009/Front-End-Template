@@ -54,9 +54,23 @@ const progressContainerStyles = {
   marginTop: '20px',
 };
 
+const subjectStyles = {
+  fontSize: '24px',
+  fontWeight: 'bold',
+  marginBottom: '10px',
+  color: '#000000',
+};
+
+const classStyles = {
+  fontSize: '20px',
+  marginBottom: '10px',
+  color: '#000000',
+};
+
 const unitStyles = {
   fontWeight: 'bold',
   marginBottom: '10px',
+  color: '#000000',
 };
 
 const lessonStyles = {
@@ -258,19 +272,43 @@ export default function DashboardAppPage() {
           {/* Progress Grid */}
 
       
-    <div style={progressContainerStyles}>
-      <h3>Progress Grid</h3>
+          <div style={progressContainerStyles}>
+      <h3 style={{ color: '#000000' }}>Progress Grid</h3>
       {dashboard && dashboard.subjects ? (
         dashboard.subjects.map((subject) => (
-          <div key={subject._id}>
-            <h4>{subject.name}</h4>
+          <div
+            key={subject._id}
+            style={{
+              backgroundColor: '#65CB93',
+              padding: '20px',
+              borderRadius: '10px',
+              marginBottom: '20px',
+            }}
+          >
+            <h4 style={subjectStyles}>{subject.name}</h4>
             {subject.classes.map((classItem) => (
-              <div key={classItem._id}>
-                <h5>{classItem.name}</h5>
+              <div
+                key={classItem._id}
+                style={{
+                  backgroundColor: '#5CBBEA',
+                  padding: '15px',
+                  borderRadius: '10px',
+                  marginBottom: '15px',
+                }}
+              >
+                <h5 style={classStyles}>{classItem.name}</h5>
                 {classItem.units.map((unit) => (
-                  <div key={unit._id}>
+                  <div
+                    key={unit._id}
+                    style={{
+                      backgroundColor: '#F3E7D4',
+                      padding: '10px',
+                      borderRadius: '10px',
+                      marginBottom: '10px',
+                    }}
+                  >
                     <h6 style={unitStyles}>
-                      {unit.name} - Unit Progress: {unit.unit_progress}%
+                      {unit.name} Unit Progress: {unit.unit_progress}%
                     </h6>
                     <div>
                       <p>Completed Lessons: {unit.completed_lessons}/{unit.total_lessons}</p>
@@ -280,7 +318,15 @@ export default function DashboardAppPage() {
                       )}
                     </div>
                     {unit.lessons.map((lesson) => (
-                      <div key={lesson._id} style={lessonStyles}>
+                      <div
+                        key={lesson._id}
+                        style={{
+                          backgroundColor: lesson.is_completed ? '#D0F5BE' : '#FDECEC',
+                          padding: '5px',
+                          borderRadius: '5px',
+                          marginBottom: '5px',
+                        }}
+                      >
                         <p style={lessonCompletedStyles}>
                           {lesson.is_completed ? (
                             <FontAwesomeIcon icon={faCheckCircle} style={lessonIconStyles} />
@@ -309,7 +355,6 @@ export default function DashboardAppPage() {
         <p>Loading progress data...</p>
       )}
     </div>
-
 
 
 
