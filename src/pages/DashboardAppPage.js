@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
 import axios from 'axios';
-import { useState, button } from 'react';
+import { useState, useEffect, Button } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
@@ -53,8 +53,24 @@ export default function DashboardAppPage() {
 
   const navigate = useNavigate();
   const [selectedSubject, setSelectedSubject] = useState(null);
+  const [dashboard, setDashboard] = useState(null);
+
   let subjectID=null;
   const cookies = new Cookies();
+  let userId=null;
+  const accessToken = cookies.get('accessToken');
+  if (accessToken) {
+    try {
+      // Decode the access token to extract user ID
+      const decodedToken = jwt_decode(accessToken);
+      userId = decodedToken.userId;
+
+    } catch (error) {
+      // Handle decoding error
+      console.error('Error decoding access token:', error);
+    }
+  }
+
 
   const handleSelectSubject = (subjectName) => {
 
@@ -68,46 +84,118 @@ export default function DashboardAppPage() {
         console.log("SUB ID 1",subjectID)
 
         // post api for progress
-        // Get the access token from cookies
-        const accessToken = cookies.get('accessToken');
-        
-
-        if (accessToken) {
-          try {
-            // Decode the access token to extract user ID
-            const decodedToken = jwt_decode(accessToken);
-            const userId = decodedToken.userId;
-            console.log("USER ID ",userId)
-            console.log("SUB ID ",subjectID)
-            // Make the POST request with the user ID
-            axios.post('http://localhost:3000/progress', {
-              
-              user_id: userId,
-              subject_id: subjectID
-            })
-              .then(response => {
-                // Handle the response
-                console.log(response.data);
-                navigate(`/subject/${subjectID}/classes`);
-              })
-              .catch(error => {
-                // Handle the error
-                console.error(error);
-              });
-          } catch (error) {
-            // Handle decoding error
-            console.error('Error decoding access token:', error);
-          }
-        }
-
+        // Make the POST request with the user ID
+        axios.post('http://localhost:3000/progress', {
+          
+          user_id: userId,
+          subject_id: subjectID
+        })
+          .then(response => {
+            // Handle the response
+            console.log(response.data);
+            navigate(`/subject/${subjectID}/classes`);
+          })
+          .catch(error => {
+            // Handle the error
+            console.error(error);
+          }); 
       })
-    .catch(error => {
+      .catch(error => {
       console.error(error);
     });
-
       
   }
 
+  useEffect(() => {
+    // Fetch progress data from the backend API
+    console.log("HIII");
+    console.log("USER ",userId);
+    axios.get(`http://localhost:3000/progress/user/${userId}`)
+    .then(response => {
+      const dashboard = response.data;
+      console.log("Progress dashboard ",dashboard)
+      setDashboard(dashboard);
+    }).catch(error => {
+      console.error('Error fetching progress data:', error);
+    });
+  }, [userId]);
+
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleString();
+  };
+
+//   return (
+//     <>
+//       <Helmet>
+//         <title>Dashboard | Minimal UI</title>
+//       </Helmet>
+  
+//       <Container maxWidth="xl">
+//         <Typography variant="h4" sx={{ mb: 5 }}>
+//           Choose a subject
+//         </Typography>
+  
+//         <Grid container spacing={2}>
+//           {progressData.subjects.map(subject => (
+//             <Grid item xs={12} sm={6} md={3} key={subject._id}>
+//               <button onClick={() => handleSelectSubject(subject._id)} style={{ ...gridButtonStyles }}>
+//                 <img src={subject.image} alt={subject.name} style={gridImageStyles} />
+//               </button>
+//             </Grid>
+//           ))}
+//         </Grid>
+  
+//         {/* Render progress table */}
+//         {progressData.subjects.map(subject => (
+//           <div key={subject._id}>
+//             <h2>Subject: {subject.name}</h2>
+//             {subject.classes.map(classData => (
+//               <div key={classData._id}>
+//                 <h3>Class: {classData._id}</h3>
+//                 {classData.units.map(unit => (
+//                   <div key={unit._id}>
+//                     <h4>Unit: {unit._id}</h4>
+//                     <p>Unit Progress: {unit.unit_progress}</p>
+//                     <p>Total Lessons: {unit.total_lessons}</p>
+//                     <p>Completed Lessons: {unit.completed_lessons}</p>
+//                     <p>Unit Started At: {unit.unit_started_at}</p>
+//                     {unit.is_completed && (
+//                       <p>Unit Completed At: {unit.unit_completed_at}</p>
+//                     )}
+  
+//                     {/* Render lessons */}
+//                     {unit.lessons.map(lesson => (
+//                       <div key={lesson._id}>
+//                         <h5>Lesson: {lesson._id}</h5>
+//                         <p>Lesson Progress: {lesson.lesson_progress}</p>
+//                         <p>Total Questions: {lesson.total_questions}</p>
+//                         <p>Correct Answers: {lesson.correct_answers}</p>
+//                         <p>Total Tries: {lesson.total_tries}</p>
+//                         {lesson.is_completed && (
+//                           <p>Lesson Completed At: {lesson.lesson_completed_at}</p>
+//                         )}
+  
+//                         {/* Render answer status */}
+//                         {lesson.answer_status.map(answer => (
+//                           <div key={answer._id}>
+//                             <p>Question ID: {answer._id}</p>
+//                             <p>Is Correct: {answer.is_correct ? 'Yes' : 'No'}</p>
+//                             <p>Tries: {answer.tries}</p>
+//                           </div>
+//                         ))}
+//                       </div>
+//                     ))}
+//                   </div>
+//                 ))}
+//               </div>
+//             ))}
+//           </div>
+//         ))}
+//       </Container>
+//     </>
+//   );
+// }  
 
   return (
     <>
@@ -143,8 +231,56 @@ export default function DashboardAppPage() {
           </button>
           </Grid>
 
+          {/* Progress Grid */}
+          <Grid item xs={12} sm={6} md={3}>
+            <div>
+              <h3>Progress Grid</h3>
+              {dashboard && dashboard.subjects ? (
+                dashboard.subjects.map(subject => (
+                  <div key={subject._id}>
+                    <h4>{subject.name}</h4>
+                    {subject.classes.map(classItem => (
+                      <div key={classItem._id}>
+                        <h5>{classItem.name}</h5>
+                        {classItem.units.map(unit => (
+                          <div key={unit._id}>
+                            <h6>{unit.name}</h6>
+                            <div>
+                              <p>Unit Progress: {unit.unit_progress}%</p>
+                              <p>Completed Lessons: {unit.completed_lessons}/{unit.total_lessons}</p>
+                              <p>Unit Started At: {formatTimestamp(unit.unit_started_at)}</p>
+                              {unit.is_completed && (
+                                <p>Unit Completed At: {formatTimestamp(unit.unit_completed_at)}</p>
+                              )}
+                            </div>
+                            {unit.lessons.map(lesson => (
+                              <div key={lesson._id}>
+                                <p>Lesson {lesson._id}: {lesson.is_completed ? 'Completed' : 'In Progress'}</p>
+                                {lesson.is_completed && (
+                                  <>
+                                    <p>Lesson Progress: {lesson.lesson_progress}%</p>
+                                    <p>Correct Answers: {lesson.correct_answers}/{lesson.total_questions}</p>
+                                    <p>Total Tries: {lesson.total_tries}</p>
+                                    <p>Lesson Completed At: {formatTimestamp(lesson.lesson_completed_at)}</p>
+                                  </>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                ))
+              ) : (
+                <p>Loading progress data...</p>
+              )}
+            </div>
+          </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
+
+
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
               title="Website Visits"
               subheader="(+43%) than last year"
@@ -304,7 +440,9 @@ export default function DashboardAppPage() {
                 { id: '5', label: 'Sprint Showcase' },
               ]}
             />
-          </Grid>
+          </Grid> */}
+
+
         </Grid>
       </Container>
     </>

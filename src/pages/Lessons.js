@@ -53,6 +53,23 @@ const lessonButtonHoverStyles = {
   transform: 'scale(1.05)',
 };
 
+const CompletedStyle = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '200px',
+  height: '60px',
+  border: 'none',
+  borderRadius: '30px',
+  cursor: 'pointer',
+  background: 'linear-gradient(to right, #000000, #ED50F1)',
+  color: '#fff',
+  fontWeight: 'bold',
+  fontSize: '16px',
+  marginTop: '10px',
+  marginLeft: '150px'
+};
+
 const handleMouseEnter = (e) => {
   e.target.style.transform = lessonButtonHoverStyles.transform;
 }; 
@@ -127,9 +144,9 @@ export default function Lessons() {
     fetchLessons();
 
     const fetchCompletedLessons = async () => {
-      const response = await axios.get(`http://localhost:3000/progress/user/${userId}/completed-lessons`);
+      const response = await axios.get(`http://localhost:3000/progress/user/${userId}/unit/${unitID}/completed-lessons`);
       completed_lessons=response.data;
-      console.log("Progress ooo", completed_lessons)
+      console.log("Completed Lessons", completed_lessons)
       setCompletedLessons(completed_lessons);
     };
     fetchCompletedLessons();
@@ -144,6 +161,8 @@ export default function Lessons() {
   
   // Check if all lessons are completed
   const areAllLessonsCompleted = completedLessons.length === lessons.length;
+  console.log(completedLessons.length)
+  console.log("LESSON COMPLETED ", areAllLessonsCompleted)
 
   const handleCongratsButtonClick = () => {
     navigate(`/subject/${subjectID}/class/${classID}/units`);
@@ -152,7 +171,7 @@ export default function Lessons() {
 
   return (
     <div style={{
-      backgroundImage: 'url(https://img.freepik.com/free-vector/kids-playing-school-compound-park_1308-32285.jpg?w=1380&t=st=1685786732~exp=1685787332~hmac=3601958f512a2ba63a700a74c5c9f5d74a877b2aaead64002498d421447e427b)',
+      backgroundImage: 'url(https://img.freepik.com/premium-vector/rainbow-star-pastel-kids-background-014_615845-619.jpg?w=2000)',
       backgroundSize: 'cover',
       opacity: '0.85',
       backgroundPosition: 'center bottom',
@@ -198,12 +217,19 @@ export default function Lessons() {
       {/* Conditional rendering for the button and congratulatory message */}
       {areAllLessonsCompleted && (
         <div>
-          <Button onClick={handleCongratsButtonClick} style={{ ...lessonButtonStyles }}>
-            Complete another unit
-          </Button>
-          <Typography variant="h4" sx={{ mt: 3 }}>
+          <Typography variant="h4" sx={{ mt: 3, fontSize: '15px',
+      fontWeight: 'bold',
+      display: 'inline-block',
+      color: '#FFFFFF',
+      padding: '10px',
+      marginLeft: '15px',
+      background:'linear-gradient(45deg, rgba(185, 131, 255, 0.95), rgba(255, 93, 162, .95))',
+      borderRadius: '8px'}}>
             Congratulations on completing all lessons!
           </Typography>
+          <Button onClick={handleCongratsButtonClick} style={{ ...CompletedStyle }}>
+            Complete another unit
+          </Button>
         </div>
       )}
     </div>

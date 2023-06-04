@@ -10,6 +10,7 @@ import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import Register from './pages/RegisterPage';
+import Subjects from './pages/Subjects';
 import Classes from './pages/Classes';
 import Units from './pages/Units';
 import Lessons from './pages/Lessons';
@@ -41,6 +42,10 @@ export default function Router() {
     {
       path: 'signUp',
       element: <Register />,
+    },
+    {
+      path: '/subject',
+      element: <Subjects/>,
     },
     {
       path: '/subject/:subjectID/classes',

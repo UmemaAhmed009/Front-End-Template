@@ -107,7 +107,7 @@ export default function Units() {
 
     console.log("WHATT ",userId)
     const fetchCompletedUnits = async () => {
-      const response = await axios.get(`http://localhost:3000/progress/user/${userId}/completed-units`);
+      const response = await axios.get(`http://localhost:3000/progress/user/${userId}/class/${classID}/completed-units`);
       const completed_units=response.data;
       console.log(completed_units)
       setCompletedUnits(completed_units);
@@ -123,6 +123,8 @@ export default function Units() {
   
   // Check if all units are completed
   const areAllUnitsCompleted = completedUnits.length === units.length;
+  console.log(completedUnits.length)
+  console.log("Unit COMPLETED ", areAllUnitsCompleted)
 
   const handleCongratsButtonClick = () => {
     navigate(`/subject/${subjectID}/classes`);
