@@ -348,32 +348,41 @@ export default function DashboardAppPage() {
           <Grid item xs={12} sm={6} md={3}>
           <button onClick={() => handleSelectSubject("Maths")} style={{ ...gridButtonStyles }}>
             {/* <AppWidgetSummary title="Maths"  icon={'ant-design:android-filled'} /> */}
-            <img src="https://img.freepik.com/free-vector/number-0-9-with-math-symbols_1308-104131.jpg" alt="Maths" style={gridImageStyles} />
+            <img src="https://img.freepik.com/premium-vector/two-boy-reading-book-learning-mathematics_33070-4736.jpg?size=626&ext=jpg&ga=GA1.1.2091757336.1680171558&semt=ais" alt="Maths" style={gridImageStyles} />
           </button>
+          <Typography variant="subtitle1" sx={{ mb: 5 }}>
+           Mathematics
+          </Typography>
           </Grid>
           
           
           <Grid item xs={12} sm={6} md={3}>
             <button onClick={()=> handleSelectSubject("English")} style={{ ...gridButtonStyles }}>
             {/* <AppWidgetSummary title="English" color="info" icon={'ant-design:apple-filled'} /> */}
-            <img src="https://img.freepik.com/free-vector/font-design-read-book-with-kid-reading-book_1308-81788.jpg?w=826&t=st=1685034857~exp=1685035457~hmac=6d0354bf9b49b0e63d07d8ffed8225969fe5df59674aa7aa38c9c738ce6bd038" alt="Maths" style={gridImageStyles} />
+            <img src="https://img.freepik.com/free-vector/hand-drawn-vowels-illustration_23-2150138582.jpg?w=740&t=st=1685906321~exp=1685906921~hmac=85fb6d2f7b4df45d8739a54c70e11fe73f7eb16d5e535d7d37513323f875b484" alt="English" style={gridImageStyles} />
             </button>
+            <Typography variant="subtitle1" sx={{ mb: 5 }}>
+           English
+          </Typography>
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
           <button onClick={()=> handleSelectSubject("Science")} style={{ ...gridButtonStyles }}>
             {/* <AppWidgetSummary title="Science" color="warning" icon={'ant-design:windows-filled'} /> */}
-            <img src="https://img.freepik.com/free-vector/scientist-working-with-science-tools-lab_1308-37836.jpg?w=740&t=st=1685034819~exp=1685035419~hmac=0968ac54bafacbf7e2d69b8ba9c4dcdd7adb1e2faade8389bfd6b0e949f5b8cf" alt="Science" style={gridImageStyles} />
+            <img src="https://img.freepik.com/free-vector/scientist-experiment-with-speech-bubble_1308-107644.jpg?w=740&t=st=1685906283~exp=1685906883~hmac=e3f76b0aad94f6b9b75fcc1c6cd1282b2b2481c7982d87db4889746f64bc8469" alt="Science" style={gridImageStyles} />
           </button>
+          <Typography variant="subtitle1" sx={{ mb: 5 }}>
+           Science
+          </Typography>
           </Grid>
         </Grid>
-          {/* Progress Grid */}
-
-      
+  
           <div style={progressContainerStyles}>
-      <h3 style={{ color: '#000000' }}>Progress Grid</h3>
-      {dashboard && dashboard.subjects ? (
-        dashboard.subjects.map((subject, subjectIndex) => (
+          <Typography variant="h4" sx={{ mb: 2, marginTop: '25px', color: '#000000' }}>
+           Progress Grid
+          </Typography>
+          {dashboard && dashboard.subjects ? (
+          dashboard.subjects.map((subject, subjectIndex) => (
           <div
             key={subject._id}
             style={{
