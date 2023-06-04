@@ -13,6 +13,7 @@ import jwt_decode from 'jwt-decode';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { motion } from 'framer-motion';
 
 // components
 import Iconify from '../components/iconify';
@@ -32,6 +33,8 @@ import {
 } from '../sections/@dashboard/app';
 
 // ----------------------------------------------------------------------
+
+
 
 const gridButtonStyles = {
   display: 'flex',
@@ -332,6 +335,23 @@ export default function DashboardAppPage() {
 //     </>
 //   );
 // }  
+const kidVariants = {
+  laughing: {
+    rotate: [-10, 10, -10, 10, 0],
+    scale: [1, 1.2, 1, 1.2, 1],
+    transition: {
+      duration: 3,
+      repeat: Infinity,
+    },
+  },
+  thinking: {
+    opacity: [1, 0.5, 1],
+    transition: {
+      duration: 2,
+      repeat: Infinity,
+    },
+  },
+};  
 
   return (
     <>
@@ -376,6 +396,23 @@ export default function DashboardAppPage() {
           </Typography>
           </Grid>
         </Grid>
+
+        {/* Kid animation */}
+        <div style={{ position: 'absolute', top: 530, right: 0, marginRight: '100px' }}>
+        <motion.div
+          variants={kidVariants}
+          initial="thinking"
+          animate="laughing"
+          style={{
+            width: '100px',
+            height: '100px',
+            backgroundColor: 'yellow',
+          }}
+        >
+          
+          <img src="https://static.vecteezy.com/system/resources/previews/008/733/266/original/cartoon-little-boy-holding-gold-trophy-vector.jpg" alt="Thinking Kid" />
+        </motion.div>
+      </div>
   
           <div style={progressContainerStyles}>
           <Typography variant="h4" sx={{ mb: 2, marginTop: '35px', color: '#000000' }}>
@@ -627,9 +664,6 @@ export default function DashboardAppPage() {
               ]}
             />
           </Grid> */}
-
-
-        
       </Container>
     </>
   );
