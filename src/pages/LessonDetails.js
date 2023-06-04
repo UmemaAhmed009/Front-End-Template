@@ -88,7 +88,7 @@ export default function LessonDetails() {
   };
 
   const lessonStyle = {
-    backgroundImage: `url(https://img.freepik.com/free-photo/3d-cartoon-background-children_23-2150150800.jpg?w=996&t=st=1685791595~exp=1685792195~hmac=c6889c6c3b09264752e72456a583bc0898377c0275e02b10eea5782323fb693a)`,
+    backgroundImage: `url(https://img.freepik.com/premium-vector/cute-kids-background-vector_641091-221.jpg?w=1060)`,
     backgroundSize: 'cover',
     minHeight: '100vh',
     display: 'flex',
@@ -105,12 +105,11 @@ export default function LessonDetails() {
         <>
          <div className="lesson-details-container">  
         <Typography
-        variant="h2"
+        variant="h3"
         sx={{
-          fontSize: '40px',
-          fontFamily: 'Noto Serif',
+          fontSize: '20px',
+          fontFamily:'Lato',
           color: '#890596',
-          fontStyle: 'italic',
           fontWeight: 'bold',
           textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
           textAlign: 'center',
