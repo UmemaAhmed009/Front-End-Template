@@ -340,7 +340,7 @@ export default function DashboardAppPage() {
       </Helmet>
 
       <Container maxWidth="xl">
-        <Typography variant="h4" sx={{ mb: 5 }}>
+        <Typography variant="h4" sx={{ mb: 2 }}>
           Hi, Welcome back
         </Typography>
 
@@ -369,7 +369,7 @@ export default function DashboardAppPage() {
           <Grid item xs={12} sm={6} md={3}>
           <button onClick={()=> handleSelectSubject("Science")} style={{ ...gridButtonStyles }}>
             {/* <AppWidgetSummary title="Science" color="warning" icon={'ant-design:windows-filled'} /> */}
-            <img src="https://img.freepik.com/free-vector/scientist-experiment-with-speech-bubble_1308-107644.jpg?w=740&t=st=1685906283~exp=1685906883~hmac=e3f76b0aad94f6b9b75fcc1c6cd1282b2b2481c7982d87db4889746f64bc8469" alt="Science" style={gridImageStyles} />
+            <img src="https://img.freepik.com/free-vector/two-students-science-experiment_1308-3278.jpg?size=626&ext=jpg&ga=GA1.1.2091757336.1680171558&semt=ais" alt="Science" style={gridImageStyles} />
           </button>
           <Typography variant="subtitle1" sx={{ mb: 5 }}>
            Science
@@ -378,7 +378,7 @@ export default function DashboardAppPage() {
         </Grid>
   
           <div style={progressContainerStyles}>
-          <Typography variant="h4" sx={{ mb: 2, marginTop: '25px', color: '#000000' }}>
+          <Typography variant="h4" sx={{ mb: 2, marginTop: '35px', color: '#000000' }}>
            Progress Grid
           </Typography>
           {dashboard && dashboard.subjects ? (
