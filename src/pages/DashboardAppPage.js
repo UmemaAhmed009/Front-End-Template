@@ -279,7 +279,7 @@ export default function DashboardAppPage() {
           <div
             key={subject._id}
             style={{
-              backgroundColor: '#65CB93',
+              backgroundColor: '#79E0EE',
               padding: '20px',
               borderRadius: '10px',
               marginBottom: '20px',
@@ -290,7 +290,7 @@ export default function DashboardAppPage() {
               <div
                 key={classItem._id}
                 style={{
-                  backgroundColor: '#5CBBEA',
+                  backgroundColor: '#B6EAFA',
                   padding: '15px',
                   borderRadius: '10px',
                   marginBottom: '15px',
