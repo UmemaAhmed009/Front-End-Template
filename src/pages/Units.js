@@ -42,6 +42,25 @@ const handleMouseLeave = (e) => {
   e.target.style.transform = 'scale(1)';
 };
 
+const CompletedUnits = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '200px',
+  height: '60px',
+  border: 'none',
+  borderRadius: '30px',
+  cursor: 'pointer',
+  background: 'linear-gradient(to right, #172774, #FF5200)',
+  color: '#fff',
+  fontWeight: 'bold',
+  fontSize: '16px',
+  marginTop: '10px',
+  marginLeft: '150px'
+};
+
+
+
 export default function Units() {
   const navigate = useNavigate();
   const { subjectID, classID } = useParams();
@@ -172,12 +191,20 @@ export default function Units() {
       {/* Conditional rendering for the button and congratulatory message */}
       {areAllUnitsCompleted && (
         <div>
-          <button onClick={handleCongratsButtonClick} style={{ ...unitButtonStyles }}>
-            Go to another class
-          </button>
-          <Typography variant="h4" sx={{ mt: 3 }}>
+
+          <Typography variant="h4" sx={{ mt: 3, fontSize: '15px',
+      fontWeight: 'bold',
+      display: 'inline-block',
+      color: '#FFFFFF',
+      padding: '10px',
+      marginLeft: '15px',
+      background:'linear-gradient(45deg, rgba(185, 131, 255, 0.8), rgba(255, 82, 0, .75))',
+      borderRadius: '8px'}}>
             Congratulations on completing all units!
           </Typography>
+          <button onClick={handleCongratsButtonClick} style={{ ...CompletedUnits }}>
+            Go to another class
+          </button>
         </div>
       )}
 
