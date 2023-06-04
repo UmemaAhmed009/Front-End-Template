@@ -82,7 +82,7 @@ export default function Nav({ openNav, onCloseNav }) {
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
       }}
     >
-      <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
+      <Box sx={{ px: 2.5, py: 3, display: 'flex', justifyContent: 'center' }}>
         <Logo />
       </Box>
 
@@ -110,11 +110,17 @@ export default function Nav({ openNav, onCloseNav }) {
 
       <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
         <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
-          {/* <Box
+
+        <Box sx={{ textAlign: 'center', mt: 5 }}>
+          <Typography variant="h5" sx={{ color: '#FF4081', fontStyle: 'italic', fontSize: '24px' }}>
+            Kids learn best when they're having fun!
+          </Typography>
+        </Box>
+          <Box
             component="img"
             src="/assets/illustrations/illustration_avatar.png"
             sx={{ width: 100, position: 'absolute', top: -50 }}
-          /> */}
+          />
 
           {/* <Box sx={{ textAlign: 'center' }}>
             <Typography gutterBottom variant="h6">

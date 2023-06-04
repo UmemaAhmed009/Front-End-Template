@@ -74,9 +74,7 @@ const gridImageStyles = {
 //   color: '#000000',
 // };
 
-const lessonStyles = {
-  marginBottom: '10px',
-};
+
 
 // const lessonCompletedStyles = {
 //   display: 'flex',
@@ -111,16 +109,22 @@ export default function DashboardAppPage() {
   };
 
   const unitStyles = {
-    fontSize: '14px',
+    fontSize: '16px',
     fontWeight: 'bold',
     marginBottom: '8px',
   };
 
+  // const lessonStyles = {
+  //   fontSize: '12px',
+  //   fontWeight: 'bold',
+  //   marginBottom: '8px',
+  // };
   const lessonCompletedStyles = {
     display: 'flex',
     alignItems: 'center',
-    fontSize: '12px',
-    marginBottom: '5px',
+    fontWeight: 'bold',
+    fontSize: '16px',
+    marginBottom: '8px',
   };
 
   const lessonIconStyles = {
@@ -288,7 +292,7 @@ export default function DashboardAppPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const subjects = dashboard.subjects || [];
+        const subjects = [];
         const subjectNames = await Promise.all(subjects.map((subject) => fetchSubjectName(subject._id)));
         setSubjectNames(subjectNames);
 
@@ -415,34 +419,45 @@ export default function DashboardAppPage() {
         <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
         </Typography>
-
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={3}>
           <button onClick={() => handleSelectSubject("Maths")} style={{ ...gridButtonStyles }}>
             {/* <AppWidgetSummary title="Maths"  icon={'ant-design:android-filled'} /> */}
-            <img src="https://img.freepik.com/free-vector/number-0-9-with-math-symbols_1308-104131.jpg" alt="Maths" style={gridImageStyles} />
+            <img src="https://img.freepik.com/premium-vector/two-boy-reading-book-learning-mathematics_33070-4736.jpg?size=626&ext=jpg&ga=GA1.1.2091757336.1680171558&semt=ais" alt="Maths" style={gridImageStyles} />
           </button>
+          <Typography variant="h6" sx={{ mb: 5, marginLeft: '50px' }}>
+           Mathematics
+          </Typography>
           </Grid>
           
           
           <Grid item xs={12} sm={6} md={3}>
             <button onClick={()=> handleSelectSubject("English")} style={{ ...gridButtonStyles }}>
             {/* <AppWidgetSummary title="English" color="info" icon={'ant-design:apple-filled'} /> */}
-            <img src="https://img.freepik.com/free-vector/font-design-read-book-with-kid-reading-book_1308-81788.jpg?w=826&t=st=1685034857~exp=1685035457~hmac=6d0354bf9b49b0e63d07d8ffed8225969fe5df59674aa7aa38c9c738ce6bd038" alt="Maths" style={gridImageStyles} />
+            <img src="https://img.freepik.com/free-vector/hand-drawn-vowels-illustration_23-2150138582.jpg?w=740&t=st=1685906321~exp=1685906921~hmac=85fb6d2f7b4df45d8739a54c70e11fe73f7eb16d5e535d7d37513323f875b484" alt="English" style={gridImageStyles} />
             </button>
+            <Typography variant="h6" sx={{ mb: 5, marginLeft: '50px' }}>
+           English
+          </Typography>
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
           <button onClick={()=> handleSelectSubject("Science")} style={{ ...gridButtonStyles }}>
             {/* <AppWidgetSummary title="Science" color="warning" icon={'ant-design:windows-filled'} /> */}
-            <img src="https://img.freepik.com/free-vector/scientist-working-with-science-tools-lab_1308-37836.jpg?w=740&t=st=1685034819~exp=1685035419~hmac=0968ac54bafacbf7e2d69b8ba9c4dcdd7adb1e2faade8389bfd6b0e949f5b8cf" alt="Science" style={gridImageStyles} />
+            <img src="https://img.freepik.com/free-vector/two-students-science-experiment_1308-3278.jpg?size=626&ext=jpg&ga=GA1.1.2091757336.1680171558&semt=ais" alt="Science" style={gridImageStyles} />
           </button>
+          <Typography variant="h6" sx={{ mb: 5, marginLeft: '50px' }}>
+           Science
+          </Typography>
           </Grid>
-        </Grid>
-          {/* Progress Grid */}
+        </Grid>          
+        {/* Progress Grid */}
 
       
           <div style={progressContainerStyles}>
+          <Typography variant="h4" sx={{ mb: 2, marginTop: '35px', color: '#000000' }}>
+           Progress Grid
+          </Typography>
       {dashboard && dashboard.subjects ? (
         dashboard.subjects.map((subject, subjectIndex) => (
           <motion.div
@@ -487,8 +502,9 @@ export default function DashboardAppPage() {
                   >
                     <h6 style={unitStyles}>
                       {unitNames[unitIndex]} 
-                      <br />
+                      <br /><br />
                       Unit Progress:
+                      <br /><br />
                       {renderProgressBar(unit.unit_progress)}
                     </h6>
                     <div>
@@ -526,11 +542,13 @@ export default function DashboardAppPage() {
                               {/* <p>Correct Answers: {lesson.correct_answers}/{lesson.total_questions}</p> */}
                               <p>Total Incorrect Tries: {lesson.total_tries}</p>
                               <p>Lesson Completed At: {formatTimestamp(lesson.lesson_completed_at)}</p>
+                              
                             </>
                           )}
-                          <p>Lesson Progress:
+                          <h6>Lesson Progress:
+                          <br /><br />
                             {renderProgressBar(lesson.lesson_progress)}
-                          </p>
+                          </h6>
                         </div>
                       </motion.div>
                     ))}
