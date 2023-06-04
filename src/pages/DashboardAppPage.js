@@ -238,7 +238,7 @@ export default function DashboardAppPage() {
   return (
     <>
       <Helmet>
-        <title> Dashboard | Minimal UI </title>
+        <title>Fun 2 Learn</title>
       </Helmet>
 
       <Container maxWidth="xl">
