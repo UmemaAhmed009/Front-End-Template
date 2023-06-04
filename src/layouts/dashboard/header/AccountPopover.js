@@ -1,8 +1,16 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useState, useEffect, Button } from 'react';
+import { Cookies } from 'react-cookie';
+import { useNavigate, Link } from 'react-router-dom';
+/* eslint-disable */
+import jwt_decode from 'jwt-decode';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
+
 // mocks_
+
+
 import account from '../../../_mock/account';
 
 // ----------------------------------------------------------------------
@@ -26,12 +34,48 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  const cookies = new Cookies();
+  const accessToken = cookies.get('accessToken');
+  let userId = null;
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (accessToken) {
+        try {
+          const decodedToken = jwt_decode(accessToken);
+          userId = decodedToken.userId;
+          const response = await axios.get(`http://localhost:3000/user/${userId}`);
+          const user = response.data;
+          console.log("User", user);
+          setUser(user);
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [accessToken]);
+
+  
+ 
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (optionIndex) => {
+    if (optionIndex == 0) {
+      navigate(`/subject`); // Navigate to the Home page
+    } else if (optionIndex == 1) {
+      navigate(`/subject`);; // Navigate to the Profile page
+    } else if (optionIndex == 2) {
+      navigate('/user-settings'); // Navigate to the Settings page
+    }
+
     setOpen(null);
   };
 
@@ -78,18 +122,18 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {user?.name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {user?.email}
           </Typography>
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <Stack sx={{ p: 1 }}>
-          {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={handleClose}>
+        {MENU_OPTIONS.map((option, index) => (
+            <MenuItem key={option.label} onClick={() => handleClose(index)}>
               {option.label}
             </MenuItem>
           ))}

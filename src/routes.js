@@ -19,6 +19,7 @@ import Questions from './pages/Questions';
 import AnsweredQuestions from './pages/Answered_Questions';
 import ProtectedRoutes from "./ProtectedRoutes";
 import AuthComponent from './AuthComponent';
+import UserSettingsPage from './pages/UserSettingsPage';
 
 // ----------------------------------------------------------------------
 
@@ -42,6 +43,10 @@ export default function Router() {
     {
       path: 'signUp',
       element: <Register />,
+    },
+    {
+      path: '/user-settings',
+      element: <UserSettingsPage/>,
     },
     {
       path: '/subject',
