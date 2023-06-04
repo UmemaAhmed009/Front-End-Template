@@ -15,6 +15,7 @@ import jwt_decode from 'jwt-decode';
 // components
 import Iconify from '../components/iconify';
 
+
 const buttonContainerStyle = {
   position: 'fixed',
   bottom: '50px',
@@ -32,6 +33,7 @@ const buttonStyle = {
 };
 
 export default function LessonDetails() {
+
   const navigate = useNavigate();
   const { subjectID, classID, unitID, lessonID } = useParams();
   const [selectedLesson, setSelectedLesson] = useState(null);
@@ -88,13 +90,13 @@ export default function LessonDetails() {
   };
 
   const lessonStyle = {
-    backgroundImage: `url(https://img.freepik.com/premium-vector/cute-kids-background-vector_641091-221.jpg?w=1060)`,
+    backgroundImage: `url(https://img.freepik.com/premium-photo/fun-round-confetti-frame-celebration-background_574033-231.jpg?size=626&ext=jpg&ga=GA1.2.2091757336.1680171558&semt=ais)`,
     backgroundSize: 'cover',
     minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundPosition: 'center 30%',
+    backgroundPosition: 'center 50%',
     justifyContent: 'center',
   };
 
@@ -104,21 +106,22 @@ export default function LessonDetails() {
       {selectedLesson && (
         <>
          <div className="lesson-details-container">  
-        <Typography
-        variant="h3"
-        sx={{
-          fontSize: '20px',
-          fontFamily:'Lato',
-          color: '#890596',
-          fontWeight: 'bold',
-          textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+  
+        <p
+        style={{
+          fontSize: '30px',
+          fontFamily:'Feather Bold !important: true', 
+          color: '#FFFFFF',
+          fontWeight: '700',
           textAlign: 'center',
           letterSpacing: '2px',
-          marginBottom: '40px'
-        }}
-      >
-        {selectedLesson.lessonDetails}
-      </Typography>          
+          marginBottom: '40px',
+          marginTop: '20px',
+          background:'linear-gradient(45deg, rgba(88, 204, 2,1), rgba(137, 226, 25,0.75)',
+          padding: '10px',
+          borderRadius: '8px',
+          boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
+        }}>{selectedLesson.lessonDetails}</p>          
           </div>
           <div className="lesson-image-container">
             <img src={selectedLesson.lessonImage} alt="Lesson" style={{ width: '100%', height: 'auto', maxWidth: '500px' }}/>
