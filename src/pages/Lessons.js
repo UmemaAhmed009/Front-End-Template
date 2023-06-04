@@ -144,9 +144,9 @@ export default function Lessons() {
     fetchLessons();
 
     const fetchCompletedLessons = async () => {
-      const response = await axios.get(`http://localhost:3000/progress/user/${userId}/completed-lessons`);
+      const response = await axios.get(`http://localhost:3000/progress/user/${userId}/unit/${unitID}/completed-lessons`);
       completed_lessons=response.data;
-      console.log("Progress ooo", completed_lessons)
+      console.log("Completed Lessons", completed_lessons)
       setCompletedLessons(completed_lessons);
     };
     fetchCompletedLessons();
@@ -161,6 +161,8 @@ export default function Lessons() {
   
   // Check if all lessons are completed
   const areAllLessonsCompleted = completedLessons.length === lessons.length;
+  console.log(completedLessons.length)
+  console.log("LESSON COMPLETED ", areAllLessonsCompleted)
 
   const handleCongratsButtonClick = () => {
     navigate(`/subject/${subjectID}/class/${classID}/units`);
