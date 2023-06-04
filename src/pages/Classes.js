@@ -128,23 +128,28 @@ const handleSelectClass = (className) => {
         <title> Classes </title>
       </Helmet>
       <div style={{
-          backgroundImage: 'url(https://img.freepik.com/free-vector/hand-drawn-children-s-day-spanish-background_23-2149299343.jpg?w=996&t=st=1685873081~exp=1685873681~hmac=9c37bf2a112bf9f56a0d515d2614210d55a7d8ce880f4be56ed16655c1a1c0bd)',
+          backgroundImage: 'url(https://img.freepik.com/free-vector/watercolor-feather-frame-vector-boho-style_53876-170528.jpg?size=626&ext=jpg&ga=GA1.2.2091757336.1680171558&semt=ais)',
           backgroundSize: 'cover',
           backgroundPosition: 'center 80%',
           minHeight: '100vh',
         }}>
       <Container maxWidth="xl">
           <Typography
-            variant="h1"
+            variant="h2"
             sx={{
-              fontSize: '64px',
-              fontFamily: 'Alice',
-              color: '#C70A80',
-              fontWeight: 'bold',
-              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+              fontFamily: 'Crimson Text',
+              display: 'inline-block',
+              color: '#CF0000',
+              fontWeight: '600',
               textAlign: 'center',
               letterSpacing: '2px',
-              marginBottom: '40px'
+              marginBottom: '40px',
+              marginLeft: '200px',
+              marginTop: '20px',
+              background:'linear-gradient(45deg, rgba(254, 98, 68, 1), rgba(153, 204, 255, 1))',
+              padding: '10px 20px',
+              borderRadius: '25px',
+              boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
             }}
           >
             SELECT A CLASS

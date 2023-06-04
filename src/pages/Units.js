@@ -159,16 +159,21 @@ export default function Units() {
         }}>
 
           <Typography
-            variant="h1"
+            variant="h2"
             sx={{
-              fontSize: '64px',
-              fontFamily: 'Alice',
+              fontFamily: 'Crimson Text',
+              display: 'inline-block',
               color: '#143F6B',
-              fontWeight: 'bold',
-              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+              fontWeight: '600',
               textAlign: 'center',
               letterSpacing: '2px',
-              marginBottom: '40px'
+              marginBottom: '40px',
+              marginLeft: '200px',
+              marginTop: '20px',
+              background:'linear-gradient(45deg, rgba(44, 211, 225, 0.75), rgba(152, 238, 204, 0.75))',
+              padding: '10px 20px',
+              borderRadius: '25px',
+              boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
             }}
           >
             SELECT A UNIT

@@ -109,7 +109,7 @@ export default function LessonDetails() {
   
         <p
         style={{
-          fontSize: '30px',
+          fontSize: '20px',
           fontFamily:'Feather Bold !important: true', 
           color: '#FFFFFF',
           fontWeight: '700',
