@@ -27,7 +27,7 @@ const buttonStyle = {
 };
 
 const AnswersStyle = {
-  fontSize: '36px',
+  fontSize: '32px',
   fontWeight: 'bold',
   display: 'inline-block',
   color: '#FFFFFF',
@@ -45,10 +45,10 @@ const kidImage ={
   position: 'absolute',
   top: 0,
   right: 0,
-  width: '650px',
+  width: '300px',
   height: 'auto',
-  marginRight: '20px',
-  marginTop: '100px',
+  marginRight: '50px',
+  marginTop: '300px',
 
 };
 

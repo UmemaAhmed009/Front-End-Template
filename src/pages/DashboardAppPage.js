@@ -53,100 +53,47 @@ const gridImageStyles = {
   height: '150px',
 };
 
-// const progressContainerStyles = {
-//   marginTop: '20px',
-// };
+const progressContainerStyles = {
+  marginTop: '20px',
+};
 
-// const subjectStyles = {
-//   fontSize: '24px',
-//   fontWeight: 'bold',
-//   marginBottom: '10px',
-//   color: '#000000',
-// };
+const subjectStyles = {
+  fontSize: '24px',
+  fontWeight: 'bold',
+  marginBottom: '10px',
+  color: '#000000',
+};
 
-// const classStyles = {
-//   fontSize: '20px',
-//   marginBottom: '10px',
-//   color: '#000000',
-// };
+const classStyles = {
+  fontSize: '20px',
+  marginBottom: '10px',
+  color: '#000000',
+};
 
-// const unitStyles = {
-//   fontWeight: 'bold',
-//   marginBottom: '10px',
-//   color: '#000000',
-// };
+const unitStyles = {
+  fontWeight: 'bold',
+  marginBottom: '10px',
+  color: '#000000',
+};
 
+const lessonStyles = {
+  marginBottom: '10px',
+};
 
+const lessonCompletedStyles = {
+  display: 'flex',
+  alignItems: 'center',
+};
 
-// const lessonCompletedStyles = {
-//   display: 'flex',
-//   alignItems: 'center',
-// };
-
-// const lessonIconStyles = {
-//   marginRight: '5px',
-// };
+const lessonIconStyles = {
+  marginRight: '5px',
+};
 
 
 
 
 export default function DashboardAppPage() {
   const theme = useTheme();
-
-  const progressContainerStyles = {
-    fontFamily: 'Arial, sans-serif',
-    color: '#000000',
-  };
-
-  const subjectStyles = {
-    fontSize: '18px',
-    fontWeight: 'bold',
-    marginBottom: '10px',
-  };
-
-  const classStyles = {
-    fontSize: '16px',
-    fontWeight: 'bold',
-    marginBottom: '8px',
-  };
-
-  const unitStyles = {
-    fontSize: '16px',
-    fontWeight: 'bold',
-    marginBottom: '8px',
-  };
-
-  // const lessonStyles = {
-  //   fontSize: '12px',
-  //   fontWeight: 'bold',
-  //   marginBottom: '8px',
-  // };
-  const lessonCompletedStyles = {
-    display: 'flex',
-    alignItems: 'center',
-    fontWeight: 'bold',
-    fontSize: '16px',
-    marginBottom: '8px',
-  };
-
-  const lessonIconStyles = {
-    color: '#4CAF50',
-    marginRight: '5px',
-  };
-
-  const progressBarStyles = {
-    display: 'flex',
-    alignItems: 'center',
-    height: '10px',
-    backgroundColor: '#E0E0E0',
-    borderRadius: '5px',
-    overflow: 'hidden',
-  };
-
-  const progressStyles = {
-    height: '100%',
-    backgroundColor: '#4CAF50',
-  };
 
   const navigate = useNavigate();
   const [selectedSubject, setSelectedSubject] = useState(null);
@@ -284,7 +231,7 @@ export default function DashboardAppPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const subjects = [];
+        const subjects = dashboard.subjects || [];
         const subjectNames = await Promise.all(subjects.map((subject) => fetchSubjectName(subject._id)));
         setSubjectNames(subjectNames);
 
@@ -316,18 +263,95 @@ export default function DashboardAppPage() {
     fetchData();
   }, [dashboard]);
 
-  const renderProgressBar = (progress) => {
-    return (
-      <div style={progressBarStyles}>
-        <motion.div
-          style={{ width: `${progress}%`, ...progressStyles }}
-          initial={{ width: '0%' }}
-          animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.5 }}
-        ></motion.div>
-      </div>
-    );
-  };
+
+//   return (
+//     <>
+//       <Helmet>
+//         <title>Dashboard | Minimal UI</title>
+//       </Helmet>
+  
+//       <Container maxWidth="xl">
+//         <Typography variant="h4" sx={{ mb: 5 }}>
+//           Choose a subject
+//         </Typography>
+  
+//         <Grid container spacing={2}>
+//           {progressData.subjects.map(subject => (
+//             <Grid item xs={12} sm={6} md={3} key={subject._id}>
+//               <button onClick={() => handleSelectSubject(subject._id)} style={{ ...gridButtonStyles }}>
+//                 <img src={subject.image} alt={subject.name} style={gridImageStyles} />
+//               </button>
+//             </Grid>
+//           ))}
+//         </Grid>
+  
+//         {/* Render progress table */}
+//         {progressData.subjects.map(subject => (
+//           <div key={subject._id}>
+//             <h2>Subject: {subject.name}</h2>
+//             {subject.classes.map(classData => (
+//               <div key={classData._id}>
+//                 <h3>Class: {classData._id}</h3>
+//                 {classData.units.map(unit => (
+//                   <div key={unit._id}>
+//                     <h4>Unit: {unit._id}</h4>
+//                     <p>Unit Progress: {unit.unit_progress}</p>
+//                     <p>Total Lessons: {unit.total_lessons}</p>
+//                     <p>Completed Lessons: {unit.completed_lessons}</p>
+//                     <p>Unit Started At: {unit.unit_started_at}</p>
+//                     {unit.is_completed && (
+//                       <p>Unit Completed At: {unit.unit_completed_at}</p>
+//                     )}
+  
+//                     {/* Render lessons */}
+//                     {unit.lessons.map(lesson => (
+//                       <div key={lesson._id}>
+//                         <h5>Lesson: {lesson._id}</h5>
+//                         <p>Lesson Progress: {lesson.lesson_progress}</p>
+//                         <p>Total Questions: {lesson.total_questions}</p>
+//                         <p>Correct Answers: {lesson.correct_answers}</p>
+//                         <p>Total Tries: {lesson.total_tries}</p>
+//                         {lesson.is_completed && (
+//                           <p>Lesson Completed At: {lesson.lesson_completed_at}</p>
+//                         )}
+  
+//                         {/* Render answer status */}
+//                         {lesson.answer_status.map(answer => (
+//                           <div key={answer._id}>
+//                             <p>Question ID: {answer._id}</p>
+//                             <p>Is Correct: {answer.is_correct ? 'Yes' : 'No'}</p>
+//                             <p>Tries: {answer.tries}</p>
+//                           </div>
+//                         ))}
+//                       </div>
+//                     ))}
+//                   </div>
+//                 ))}
+//               </div>
+//             ))}
+//           </div>
+//         ))}
+//       </Container>
+//     </>
+//   );
+// }  
+const kidVariants = {
+  laughing: {
+    rotate: [-10, 10, -10, 10, 0],
+    scale: [1, 1.2, 1, 1.2, 1],
+    transition: {
+      duration: 3,
+      repeat: Infinity,
+    },
+  },
+  thinking: {
+    opacity: [1, 0.5, 1],
+    transition: {
+      duration: 2,
+      repeat: Infinity,
+    },
+  },
+};  
 
   return (
     <>
@@ -336,9 +360,10 @@ export default function DashboardAppPage() {
       </Helmet>
 
       <Container maxWidth="xl">
-        <Typography variant="h4" sx={{ mb: 5 }}>
+        <Typography variant="h4" sx={{ mb: 2 }}>
           Hi, Welcome back
         </Typography>
+
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={3}>
           <button onClick={() => handleSelectSubject("Maths")} style={{ ...gridButtonStyles }}>
@@ -370,17 +395,32 @@ export default function DashboardAppPage() {
            Science
           </Typography>
           </Grid>
-        </Grid>          
-        {/* Progress Grid */}
+        </Grid>
 
-      
+        {/* Kid animation */}
+        <div style={{ position: 'absolute', top: 530, right: 0, marginRight: '100px' }}>
+        <motion.div
+          variants={kidVariants}
+          initial="thinking"
+          animate="laughing"
+          style={{
+            width: '100px',
+            height: '100px',
+            backgroundColor: 'yellow',
+          }}
+        >
+          
+          <img src="https://static.vecteezy.com/system/resources/previews/008/733/266/original/cartoon-little-boy-holding-gold-trophy-vector.jpg" alt="Thinking Kid" />
+        </motion.div>
+      </div>
+  
           <div style={progressContainerStyles}>
           <Typography variant="h4" sx={{ mb: 2, marginTop: '35px', color: '#000000' }}>
            Progress Grid
           </Typography>
-      {dashboard && dashboard.subjects ? (
-        dashboard.subjects.map((subject, subjectIndex) => (
-          <motion.div
+          {dashboard && dashboard.subjects ? (
+          dashboard.subjects.map((subject, subjectIndex) => (
+          <div
             key={subject._id}
             style={{
               backgroundColor: '#79E0EE',
@@ -388,13 +428,10 @@ export default function DashboardAppPage() {
               borderRadius: '10px',
               marginBottom: '20px',
             }}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: subjectIndex * 0.2 }}
           >
             <h4 style={subjectStyles}>{subjectNames[subjectIndex]}</h4>
             {subject.classes.map((classItem, classIndex) => (
-              <motion.div
+              <div
                 key={classItem._id}
                 style={{
                   backgroundColor: '#B6EAFA',
@@ -402,13 +439,10 @@ export default function DashboardAppPage() {
                   borderRadius: '10px',
                   marginBottom: '15px',
                 }}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: classIndex * 0.1 }}
               >
                 <h5 style={classStyles}>{classNames[classIndex]}</h5>
                 {classItem.units.map((unit, unitIndex) => (
-                  <motion.div
+                  <div
                     key={unit._id}
                     style={{
                       backgroundColor: '#F3E7D4',
@@ -416,16 +450,11 @@ export default function DashboardAppPage() {
                       borderRadius: '10px',
                       marginBottom: '10px',
                     }}
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: unitIndex * 0.05 }}
                   >
                     <h6 style={unitStyles}>
                       {unitNames[unitIndex]} 
-                      <br /><br />
-                      Unit Progress:
-                      <br /><br />
-                      {renderProgressBar(unit.unit_progress)}
+                      <br />
+                      Unit Progress: {unit.unit_progress}%
                     </h6>
                     <div>
                       <p>Completed Lessons: {unit.completed_lessons}/{unit.total_lessons}</p>
@@ -436,7 +465,7 @@ export default function DashboardAppPage() {
                       )}
                     </div>
                     {unit.lessons.map((lesson) => (
-                      <motion.div
+                      <div
                         key={lesson._id}
                         style={{
                           backgroundColor: lesson.is_completed ? '#D0F5BE' : '#FDECEC',
@@ -444,9 +473,6 @@ export default function DashboardAppPage() {
                           borderRadius: '5px',
                           marginBottom: '5px',
                         }}
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
                       >
                         <p style={lessonCompletedStyles}>
                           {lesson.is_completed ? (
@@ -456,27 +482,21 @@ export default function DashboardAppPage() {
                           )}
                           Lesson {lesson._id}: {lessonNames[lesson._id]}
                         </p>
-                        <div>
-                          {lesson.is_completed && (
-                            <>
-                              {/* <p>Correct Answers: {lesson.correct_answers}/{lesson.total_questions}</p> */}
-                              <p>Total Incorrect Tries: {lesson.total_tries}</p>
-                              <p>Lesson Completed At: {formatTimestamp(lesson.lesson_completed_at)}</p>
-                              
-                            </>
-                          )}
-                          <h6>Lesson Progress:
-                          <br /><br />
-                            {renderProgressBar(lesson.lesson_progress)}
-                          </h6>
-                        </div>
-                      </motion.div>
+                        {lesson.is_completed && (
+                          <>
+                            <p>Lesson Progress: {lesson.lesson_progress}%</p>
+                            <p>Correct Answers: {lesson.correct_answers}/{lesson.total_questions}</p>
+                            <p>Total Tries: {lesson.total_tries}</p>
+                            <p>Lesson Completed At: {formatTimestamp(lesson.lesson_completed_at)}</p>
+                          </>
+                        )}
+                      </div>
                     ))}
-                  </motion.div>
+                  </div>
                 ))}
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         ))
       ) : (
         <p>Start a course!</p>
