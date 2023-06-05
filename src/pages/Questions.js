@@ -10,6 +10,7 @@ import { useNavigate, Link, useParams } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 /* eslint-disable */
 import jwt_decode from 'jwt-decode';
+import Confetti from 'react-confetti';
 
 // components
 import Iconify from '../components/iconify';
@@ -23,6 +24,7 @@ const Questions = () => {
   const [shuffledAnswers, setShuffledAnswers] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [disabledOptions, setDisabledOptions] = useState([]);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const { subjectID, classID, unitID, lessonID } = useParams();
 
@@ -122,6 +124,12 @@ const Questions = () => {
       fontWeight: 'bold',
       cursor: 'pointer',
     };
+
+    const confettiConfig = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+  
 
     return (
       <div style={congratsContainerStyle}>
@@ -223,6 +231,8 @@ const Questions = () => {
     justifyContent: 'center',
   };
 
+
+  
   return (
     <div style={containerStyle}>
      <Typography
@@ -245,9 +255,10 @@ const Questions = () => {
           <img
             src={currentQuestion.question_image}
             alt={`Question ${currentQuestionIndex + 1}`}
-            style={{ width: '300px', height: '300px', marginBottom: '20px'}}
+            style={{ width: '300px', height: 'auto', marginBottom: '20px'}}
           />
         )}
+        
         {/* <div style={ styles.buttonContainer }> */} 
         {shuffledAnswers.map((answer, index) => {
           const isCorrectAnswer = answer === currentQuestion.answers[0];
