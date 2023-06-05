@@ -335,23 +335,17 @@ export default function DashboardAppPage() {
 //     </>
 //   );
 // }  
-const kidVariants = {
-  laughing: {
-    rotate: [-10, 10, -10, 10, 0],
-    scale: [1, 1.2, 1, 1.2, 1],
-    transition: {
-      duration: 3,
-      repeat: Infinity,
-    },
-  },
-  thinking: {
-    opacity: [1, 0.5, 1],
+const KidVariants = {
+  animate: {
+    rotate: [0, 30],
+    scale: [1, 1.5, 2],
     transition: {
       duration: 2,
       repeat: Infinity,
+      ease: 'linear',
     },
   },
-};  
+};
 
   return (
     <>
@@ -400,18 +394,17 @@ const kidVariants = {
         {/* Kid animation */}
         <div style={{ position: 'absolute', top: 530, right: 0, marginRight: '100px' }}>
         <motion.div
-          variants={kidVariants}
-          initial="thinking"
-          animate="laughing"
-          style={{
-            width: '100px',
-            height: '100px',
-            backgroundColor: 'yellow',
-          }}
-        >
-          
-          <img src="https://static.vecteezy.com/system/resources/previews/008/733/266/original/cartoon-little-boy-holding-gold-trophy-vector.jpg" alt="Thinking Kid" />
-        </motion.div>
+        variants={KidVariants}
+        initial="animate"
+        animate="animate"
+        style={{
+          width: '80px',
+          height: '100px',
+          backgroundImage: 'url(https://img.freepik.com/premium-vector/cartoon-happy-school-boy-posing_29190-7322.jpg?w=2000)', 
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
       </div>
   
           <div style={progressContainerStyles}>
