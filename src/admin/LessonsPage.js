@@ -52,7 +52,7 @@ const YourComponent = () => {
       try {
         console.log("ACCESS TOKEN", accessToken);
         axios
-          .get(`http://localhost:3001/lesson`, {
+          .get(`http://localhost:3000/lesson`, {
             headers: {
               'Authorization': `Bearer ${accessToken}`
             }
@@ -112,7 +112,7 @@ const YourComponent = () => {
     if (accessToken) {
       try {
         console.log("ACCESS TOKEN", accessToken);
-        axios.put(`http://localhost:3001/lesson/${lesson._id}`, updatedLessonData, {
+        axios.put(`http://localhost:3000/lesson/${lesson._id}`, updatedLessonData, {
           headers: {
             'Authorization': `Bearer ${accessToken}`
           }
@@ -137,7 +137,7 @@ const YourComponent = () => {
     if (confirmed) {
         const cookies = new Cookies();
         const accessToken = cookies.get('accessToken');
-      axios.delete(`http://localhost:3001/lesson/${lessonId}`,{
+      axios.delete(`http://localhost:3000/lesson/${lessonId}`,{
         headers: {
           'Authorization': `Bearer ${accessToken}`,
         }})

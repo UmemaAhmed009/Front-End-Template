@@ -231,7 +231,7 @@ export default function DashboardAppPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const subjects = dashboard.subjects || [];
+        const subjects = [];
         const subjectNames = await Promise.all(subjects.map((subject) => fetchSubjectName(subject._id)));
         setSubjectNames(subjectNames);
 

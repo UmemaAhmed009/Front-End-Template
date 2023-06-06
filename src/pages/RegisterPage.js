@@ -21,7 +21,7 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="http://localhost:3001">
+      <Link color="inherit" href="http://localhost:3000">
         fun2learn.com
       </Link>{' '}
       {new Date().getFullYear()}
@@ -45,7 +45,7 @@ export default function SignUp() {
     e.preventDefault();
     const configuration ={
       method: "post",
-      url: "http://localhost:3001/user/signup",
+      url: "http://localhost:3000/user/signup",
       data: {
         name,
         email,

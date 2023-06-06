@@ -51,7 +51,7 @@ const YourComponent = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/user`) 
+      .get(`http://localhost:3000/user`) 
       .then(response => {
         const usersData = response.data.docs;
         const count = response.data.count;
@@ -105,7 +105,7 @@ const YourComponent = () => {
     try{
     console.log("ACCESS TOKEN", accessToken);
     // Make the API request to update the user's data
-    axios.put(`http://localhost:3001/user/${user._id}`, updatedUserData, {
+    axios.put(`http://localhost:3000/user/${user._id}`, updatedUserData, {
       headers: {
       'Authorization': `Bearer ${accessToken}`}
     })
@@ -134,7 +134,7 @@ const handleDelete = (userId) => {
   const confirmed = window.confirm('Are you sure you want to delete this user?');
   if (confirmed) {
     // Make the API request to delete the user
-    axios.delete(`http://localhost:3001/user/${userId}`)
+    axios.delete(`http://localhost:3000/user/${userId}`)
       .then((response) => {
         // Handle the response if needed
         console.log('User deleted:', response.data);
@@ -242,7 +242,7 @@ const handleDelete = (userId) => {
                             <TextField
                               type ="number"
                               value={user.age}
-                              onChange={(event) => handleInputChange(event, user.age, 'age')}
+                              onChange={(event) => handleInputChange(event, user._id, 'age')}
                             />
                           ) : (
                             user.age

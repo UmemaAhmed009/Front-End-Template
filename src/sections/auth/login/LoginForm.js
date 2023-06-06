@@ -51,7 +51,7 @@ export default function LoginForm() {
     // set configurations
     const configuration = {
       method: "post",
-      url: "http://localhost:3001/user/login",
+      url: "http://localhost:3000/user/login",
         data: {
         email,
         password,
@@ -75,7 +75,7 @@ export default function LoginForm() {
         const userId = decodedToken.userId;
         console.log("ACCESS TOKEN ", accessToken);
         console.log("USER ID ", userId);
-        axios.get(`http://localhost:3001/user/${userId}`,{
+        axios.get(`http://localhost:3000/user/${userId}`,{
           headers: {
             'Authorization': `Bearer ${accessToken}`
           }
@@ -90,8 +90,8 @@ export default function LoginForm() {
               console.log("Navigating to /admin");
               window.location.href = "/admin";
             } else {
-              console.log("Navigating to /home");
-              window.location.href = "/home/app";
+              console.log("Navigating to /dashboard/app");
+              window.location.href = "/dashboard/app";
             }
           })
           .catch(error => {

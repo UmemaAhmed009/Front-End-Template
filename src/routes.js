@@ -26,6 +26,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import AuthComponent from './AuthComponent';
 import UserSettingsPage from './pages/UserSettingsPage';
 import AuthMiddleware from './sections/auth/login/AuthMiddleware';
+import AdminAuth from './sections/auth/login/AdminAuth';
 import UserProfilePage from './pages/UserProfile';
 
 // ----------------------------------------------------------------------
@@ -38,7 +39,7 @@ export default function Router() {
       path: '/',
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="dashboard/app" />, index: true },
+        { element: <Navigate to="dashboard/app" />},
         { path: '/dashboard/app', element: <AuthMiddleware><DashboardAppPage /></AuthMiddleware> },
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
@@ -81,6 +82,8 @@ export default function Router() {
           element: <AuthMiddleware><AnsweredQuestions/></AuthMiddleware>,
         }
       ],
+    },
+    {
       path: '',
       element: <LoginPage />, index: true
     },
@@ -107,12 +110,12 @@ export default function Router() {
       path: 'admin',
       element: <DashboardLayout />,
       children: [
-        { path: '', element: <AdminPage /> },
-        { path: 'user', element: <UserPage /> },
-        { path: 'subjects', element: <SubjectsPage /> },
-        { path: 'subjects/newSubject', element: <SubjectForm /> },
-        { path: 'lessons', element: <LessonsPage /> },
-        { path: 'lessons/newLesson', element: <LessonForm /> },
+        { path: '', element: <AdminAuth><AdminPage /></AdminAuth> },
+        { path: 'user', element: <AdminAuth><UserPage /></AdminAuth> },
+        { path: 'subjects', element: <AdminAuth><SubjectsPage /></AdminAuth> },
+        { path: 'subjects/newSubject', element: <AdminAuth><SubjectForm /></AdminAuth> },
+        { path: 'lessons', element: <AdminAuth><LessonsPage /></AdminAuth> },
+        { path: 'lessons/newLesson', element: <AdminAuth><LessonForm /></AdminAuth> },
       ],
     },
 

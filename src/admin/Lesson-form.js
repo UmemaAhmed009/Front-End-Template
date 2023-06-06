@@ -79,7 +79,7 @@ const LessonForm = () => {
     console.log("ACCESS TOKEN", accessToken);
     console.log(lessonsData);
     // Make the API request to update the user's data
-    axios.post(`http://localhost:3001/lesson`, lessonsData, {
+    axios.post(`http://localhost:3000/lesson`, lessonsData, {
       headers: {
       'Authorization': `Bearer ${accessToken}`}
     })
@@ -117,6 +117,7 @@ catch{(error)
         />
         <TextField
           label="Unit ID"
+          type ="number"
           variant="outlined"
           fullWidth
           value={unitId}

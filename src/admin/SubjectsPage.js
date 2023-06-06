@@ -50,7 +50,7 @@ const YourComponent = () => {
     try{
     console.log("ACCESS TOKEN", accessToken);
     axios
-      .get(`http://localhost:3001/subject`,{headers: {
+      .get(`http://localhost:3000/subject`,{headers: {
         'Authorization': `Bearer ${accessToken}`}
       })
       .then(response => {
@@ -108,7 +108,7 @@ const YourComponent = () => {
     try{
     console.log("ACCESS TOKEN", accessToken);
     // Make the API request to update the user's data
-    axios.put(`http://localhost:3001/subject/${subject._id}`, updatedSubjectData, {
+    axios.put(`http://localhost:3000/subject/${subject._id}`, updatedSubjectData, {
       headers: {
       'Authorization': `Bearer ${accessToken}`}
     })
@@ -134,10 +134,12 @@ catch{(error)
 }};
 
 const handleDelete = (subjectId) => {
-    const confirmed = window.confirm('Are you sure you want to delete this subject?');
+  const confirmed = window.confirm('Are you sure you want to delete this subject?');
   if (confirmed) {
     // Make the API request to delete the subject
-    axios.delete(`http://localhost:3001/subject/${subjectId}`)
+    axios.delete(`http://localhost:3000/subject/${subjectId}`, { headers: {
+    'Authorization': `Bearer ${accessToken}`}
+    })
       .then((response) => {
         // Handle the response if needed
         console.log('Subject deleted:', response.data);
