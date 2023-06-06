@@ -1,11 +1,16 @@
-import { Navigate, useRoutes } from 'react-router-dom';
+import { useNavigate, Navigate, useRoutes } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
 //
 import BlogPage from './pages/BlogPage';
-import UserPage from './pages/UserPage';
+import UserPage from './admin/UserPage';
+import SubjectsPage from './admin/SubjectsPage';
+import SubjectForm from './admin/Subject-form';
+import LessonsPage from './admin/LessonsPage';
+import LessonForm from './admin/Lesson-form';
 import LoginPage from './pages/LoginPage';
+import AdminPage from './pages/AdminPage';
 import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
@@ -21,26 +26,45 @@ import AuthComponent from './AuthComponent';
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  const navigate = useNavigate;
   const routes = useRoutes([
+    
     {
-      path: '/dashboard',
-      element: <DashboardLayout />,
-      children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
-        { path: 'app', element: <DashboardAppPage /> },
-        { path: 'user', element: <UserPage /> },
-        { path: 'products', element: <ProductsPage /> },
-        { path: 'blog', element: <BlogPage /> },
-      ],
+      path: '',
+      element: <LoginPage />, index: true
     },
     {
-      path: 'login',
-      element: <LoginPage />,
+      path: '/home',
+      // element: <DashboardLayout />,
+      // children: [
+      //   // { element: <Navigate to="" />},
+      //   { path: 'app', element: <DashboardAppPage /> },
+      //   { path: 'user', element: <UserPage /> },
+      //   { path: 'products', element: <ProductsPage /> },
+      //   { path: 'blog', element: <BlogPage /> },
+      // ],
     },
     {
       path: 'signUp',
       element: <Register />,
     },
+    {
+      path: 'login',
+      element: <LoginPage />
+    },
+    {
+      path: 'admin',
+      element: <DashboardLayout />,
+      children: [
+        { path: '', element: <AdminPage /> },
+        { path: 'user', element: <UserPage /> },
+        { path: 'subjects', element: <SubjectsPage /> },
+        { path: 'subjects/newSubject', element: <SubjectForm /> },
+        { path: 'lessons', element: <LessonsPage /> },
+        { path: 'lessons/newLesson', element: <LessonForm /> },
+      ],
+    },
+
     {
       path: '/subject/:subjectID/classes',
       element: <Classes/>,

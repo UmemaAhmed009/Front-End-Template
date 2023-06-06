@@ -45,7 +45,7 @@ export default function SignUp() {
     e.preventDefault();
     const configuration ={
       method: "post",
-      url: "http://localhost:3000/user/signup",
+      url: "http://localhost:3001/user/signup",
       data: {
         name,
         email,

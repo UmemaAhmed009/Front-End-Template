@@ -1,4 +1,7 @@
+import mongoose from 'mongoose';
 import Cookies from "universal-cookie";
+/* eslint-disable */
+import jwt_decode from 'jwt-decode';
 import { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +22,26 @@ export default function LoginForm() {
 
   const [showPassword, setShowPassword] = useState(false);
 
+
+  // const collectionName = 'users'
+  // // Get the model for the collection
+  // const User = mongoose.model(collectionName);
+
+  // Count the number of users
+  // User.countDocuments({}, function(err, count) {
+  //   if (err) {
+  //     console.error('Error counting documents:', err);
+  //     mongoose.disconnect();
+  //     return;
+  //   }
+  //   // Create an array of the desired size
+  //   const users = [...Array(count)];
+
+  //   console.log(users); // Array with the desired size
+
+  //   mongoose.disconnect();
+  // });
+
   const handleClick = () => {
     navigate('/dashboard', { replace: true });
   };
@@ -28,31 +51,69 @@ export default function LoginForm() {
     // set configurations
     const configuration = {
       method: "post",
-    url: "http://localhost:3000/user/login",
-      data: {
+      url: "http://localhost:3001/user/login",
+        data: {
         email,
         password,
       },
     };
     // make the API call
     axios(configuration)
-      .then((result) => {
-        setLogin(true);
-        // set the cookie
-        cookies.set("accessToken", result.data.accessToken, {
-          path: "/",
-        });
-        cookies.set("refreshToken", result.data.refreshToken, {
-          path: "/",
-        });
-        window.location.href = "/dashboard"
-      })
-      .catch((error) => {
-        error = new Error();
-      });
+  .then((result) => {
+    setLogin(true);
+    // set the cookie
+    cookies.set("accessToken", result.data.accessToken, {
+      path: "/",
+    });
+    cookies.set("refreshToken", result.data.refreshToken, {
+      path: "/",
+    });
+    const accessToken = cookies.get('accessToken');
+    const decodedToken = jwt_decode(accessToken);
+    if (accessToken) {
+      try {
+        const userId = decodedToken.userId;
+        console.log("ACCESS TOKEN ", accessToken);
+        console.log("USER ID ", userId);
+        axios.get(`http://localhost:3001/user/${userId}`,{
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        })
+          .then(response => {
+            console.log("ACCESS TOKEN: ", accessToken);
+            const user = response.data; // Renamed 'User' to 'user' for consistency
+            console.log("User", user);
+            const roleID = user.role_id; // Assuming the role ID is present in the response data
+            console.log("ROLE ID", roleID);
+            if (roleID === 1) {
+              console.log("Navigating to /admin");
+              window.location.href = "/admin";
+            } else {
+              console.log("Navigating to /home");
+              window.location.href = "/home/app";
+            }
+          })
+          .catch(error => {
+            // Handle the error
+            console.error('Error fetching user data:', error);
+          });
+      } catch (error) {
+        // Handle decoding error
+        console.error('Error decoding access token:', error);
+      }
+    }
+  })
+  .catch(error => {
+    // Handle the error
+    console.error('Error during login:', error);
+  });
+  }
+
+        
     // make a popup alert showing the "submitted" text
     // alert("Submited");
-  }
+  
 
 
   return (
