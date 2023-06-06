@@ -48,7 +48,7 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title> Login | Minimal UI </title>
+        <title> Login | Fun2Learn</title>
       </Helmet>
 
       
@@ -63,7 +63,7 @@ export default function LoginPage() {
 
         {mdUp && (
           <StyledSection>
-            <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
+            <Typography variant="h4" sx={{ px: 5, mt: 20, mb: 5 }}>
               Hi, Welcome Back
             </Typography>
             <img src="/assets/illustrations/illustration_login.png" alt="login" />
@@ -72,13 +72,13 @@ export default function LoginPage() {
 
         <Container maxWidth="sm">
           <StyledContent>
-            <Typography variant="h4" gutterBottom>
-              Sign in to Minimal
+            <Typography variant="h4" >
+              Sign in to Fun2Learn
             </Typography>
 
-           <Typography variant="body2" sx={{ mb: 5 }}>
+           <Typography variant="subtitle1" sx={{ mb: 5 }}>
               Don’t have an account? {''}
-               <Link href="/signup" variant="subtitle2">Get started</Link>
+               <Link href="/signup" variant="subtitle1">Get started</Link>
         </Typography>
 
             <Stack direction="row" spacing={2}>

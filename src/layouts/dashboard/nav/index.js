@@ -1,5 +1,9 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import axios from 'axios';
+import { useState, useEffect} from 'react';
+import { Cookies } from 'react-cookie';
+/* eslint-disable */
+import jwt_decode from 'jwt-decode';
 import { useLocation } from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
@@ -37,6 +41,31 @@ Nav.propTypes = {
 export default function Nav({ openNav, onCloseNav }) {
   const { pathname } = useLocation();
 
+  const [user, setUser] = useState(null);
+  const cookies = new Cookies();
+  const accessToken = cookies.get('accessToken');
+  let userId = null;
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (accessToken) {
+        try {
+          const decodedToken = jwt_decode(accessToken);
+          userId = decodedToken.userId;
+          const response = await axios.get(`http://localhost:3000/user/${userId}`);
+          const user = response.data;
+          console.log("User", user);
+          setUser(user);
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [accessToken]);
+
+
   const isDesktop = useResponsive('up', 'lg');
 
   useEffect(() => {
@@ -53,7 +82,7 @@ export default function Nav({ openNav, onCloseNav }) {
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
       }}
     >
-      <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
+      <Box sx={{ px: 2.5, py: 3, display: 'flex', justifyContent: 'center' }}>
         <Logo />
       </Box>
 
@@ -64,7 +93,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {user?.name}
               </Typography>
 
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
@@ -81,13 +110,19 @@ export default function Nav({ openNav, onCloseNav }) {
 
       <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
         <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
+
+        <Box sx={{ textAlign: 'center', mt: 5 }}>
+          <Typography variant="h5" sx={{ color: '#FF4081', fontStyle: 'italic', fontSize: '24px' }}>
+            Kids learn best when they're having fun!
+          </Typography>
+        </Box>
           <Box
             component="img"
             src="/assets/illustrations/illustration_avatar.png"
             sx={{ width: 100, position: 'absolute', top: -50 }}
           />
 
-          <Box sx={{ textAlign: 'center' }}>
+          {/* <Box sx={{ textAlign: 'center' }}>
             <Typography gutterBottom variant="h6">
               Get more?
             </Typography>
@@ -95,11 +130,11 @@ export default function Nav({ openNav, onCloseNav }) {
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               From only $69
             </Typography>
-          </Box>
+          </Box> */}
 
-          <Button href="https://material-ui.com/store/items/minimal-dashboard/" target="_blank" variant="contained">
+          {/* <Button href="https://material-ui.com/store/items/minimal-dashboard/" target="_blank" variant="contained">
             Upgrade to Pro
-          </Button>
+          </Button> */}
         </Stack>
       </Box>
     </Scrollbar>

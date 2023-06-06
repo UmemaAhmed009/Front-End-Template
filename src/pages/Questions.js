@@ -4,12 +4,13 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
+import { Grid, Container, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 
 import { Cookies } from 'react-cookie';
 /* eslint-disable */
 import jwt_decode from 'jwt-decode';
+import Confetti from 'react-confetti';
 
 // components
 import Iconify from '../components/iconify';
@@ -23,8 +24,18 @@ const Questions = () => {
   const [shuffledAnswers, setShuffledAnswers] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [disabledOptions, setDisabledOptions] = useState([]);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const { subjectID, classID, unitID, lessonID } = useParams();
+
+  // const shuffleAnswers = () => {
+  //   const shuffledAnswers = [...currentQuestion.answers];
+  //   for (let i = shuffledAnswers.length - 1; i > 0; i -= 1) {
+  //     const j = Math.floor(Math.random() * (i + 1));
+  //     [shuffledAnswers[i], shuffledAnswers[j]] = [shuffledAnswers[j], shuffledAnswers[i]];
+  //   }
+  //   return shuffledAnswers;
+  // };
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -45,7 +56,18 @@ const Questions = () => {
     }
   }, [questions, currentQuestionIndex]);
 
-
+  const shuffleAnswers = () => {
+    if (!currentQuestion) {
+      return []; // Return an empty array if there are no more questions
+    }
+  
+    const shuffledAnswers = [...currentQuestion.answers];
+    for (let i = shuffledAnswers.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledAnswers[i], shuffledAnswers[j]] = [shuffledAnswers[j], shuffledAnswers[i]];
+    }
+    return shuffledAnswers;
+  };
   
   const handleNextQuestion = () => {
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
@@ -58,17 +80,68 @@ const Questions = () => {
   const currentQuestion = questions[currentQuestionIndex];
 
   if (!currentQuestion) {
-    return <p>Loading...</p>;
-  }
+    const congratsContainerStyle = {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '100vh',
+      background: 'url(https://img.freepik.com/premium-vector/happy-cute-kids-boy-girl-celebrate-win_97632-1313.jpg?w=1060) center/cover',
+      padding: '20px',
+      boxSizing: 'border-box',
+    };
 
-  const shuffleAnswers = () => {
-    const shuffledAnswers = [...currentQuestion.answers];
-    for (let i = shuffledAnswers.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledAnswers[i], shuffledAnswers[j]] = [shuffledAnswers[j], shuffledAnswers[i]];
-    }
-    return shuffledAnswers;
-  };
+    const congratsMessageStyle = {
+      fontSize: '36px',
+      fontWeight: 'bold',
+      color: '#FFFFFF',
+      textAlign: 'center',
+      marginBottom: '20px',
+      background:'linear-gradient(45deg, rgba(255, 107, 107, 0.7), rgba(153, 204, 255, 0.6))',
+      padding: '10px',
+      borderRadius: '8px',
+      boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
+      transition: 'transform 0.3s ease, background 0.3s ease',
+      cursor: 'default',
+    };
+    
+    // Add hover effect
+    congratsMessageStyle[':hover'] = {
+      transform: 'scale(1.05)',
+       background: 'linear-gradient(45deg, rgba(255, 107, 107, 1), rgba(153, 204, 255, 1))', // Change the gradient colors for hover effect
+    };
+    
+
+    const goBackButtonStyle = {
+      padding: '10px 20px',
+      backgroundColor: '#41D1C6',
+      border: 'none',
+      borderRadius: '4px',
+      opacity: '0.85',
+      color: '#ffffff',
+      textDecoration: 'none',
+      textTransform: 'uppercase',
+      fontWeight: 'bold',
+      cursor: 'pointer',
+    };
+
+    const confettiConfig = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+  
+
+    return (
+      <div style={congratsContainerStyle}>
+        <Typography variant="h3" style={congratsMessageStyle}>
+          Congratulations! You have completed the lesson! 🌟🌟🌟
+        </Typography>
+        <Link to={`/subject/${subjectID}/class/${classID}/unit/${unitID}/lessons`} style={goBackButtonStyle}>
+          Go back to Lessons
+        </Link>
+      </div>
+    );
+  }
 
   const handleAnswerSelect = (selectedAnswer) => {
     const correctAnswer = currentQuestion.answers[0]; // db has correct ans on the first index of the ans array
@@ -147,22 +220,45 @@ const Questions = () => {
     },
   };
 
+  const containerStyle = {
+    backgroundImage: `url(https://img.freepik.com/premium-vector/girl-her-friend-talking-with-blank-bubble-speech_33070-5611.jpg?w=740)`,
+    backgroundSize: 'cover',
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundPosition: 'center 50%',
+    justifyContent: 'center',
+  };
+
+
+  
   return (
-    <div>
-      <Typography variant="h3" sx={{ mb: 0 }}>
-        Quiz Page!
+    <div style={containerStyle}>
+     <Typography
+        variant="h1"
+        sx={{
+          fontSize: '50px',
+          fontFamily: 'Lato',
+          color: '#890596',
+          fontWeight: 'bold',
+          textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+          textAlign: 'center',
+          letterSpacing: '2px',
+          marginBottom: '40px'
+        }}
+      >
+        {currentQuestion.question_details}
       </Typography>
       <div>
-        <Typography variant="h3" sx={{ mb: 1 }}>
-          {currentQuestion.question_details}
-        </Typography>
         {currentQuestion.question_image && (
           <img
             src={currentQuestion.question_image}
             alt={`Question ${currentQuestionIndex + 1}`}
-            style={{ width: '300px', height: '300px', marginBottom: '20px'}}
+            style={{ width: '300px', height: 'auto', marginBottom: '20px'}}
           />
         )}
+        
         {/* <div style={ styles.buttonContainer }> */} 
         {shuffledAnswers.map((answer, index) => {
           const isCorrectAnswer = answer === currentQuestion.answers[0];

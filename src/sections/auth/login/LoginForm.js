@@ -43,7 +43,7 @@ export default function LoginForm() {
   // });
 
   const handleClick = () => {
-    navigate('/dashboard', { replace: true });
+    navigate('/dashboard/app', { replace: true });
   };
   const handleSubmit = (e) => {
     // prevent the form from refreshing the whole page

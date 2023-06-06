@@ -57,14 +57,23 @@ const handleMouseLeave = (e) => {
   e.target.style.transform = 'scale(1)';
 };
 
+const cookies = new Cookies();
+
+
+
 
 export default function Classes() {
 
 const navigate = useNavigate();
+
+
+
+
+
 const [selectedClass, setSelectedClass] = useState(null);
 const { subjectID } = useParams(); // extracting subject id from url
 let classID=null;
-const cookies = new Cookies();
+
 
 const handleSelectClass = (className) => {
   
@@ -118,11 +127,33 @@ const handleSelectClass = (className) => {
       <Helmet>
         <title> Classes </title>
       </Helmet>
-
+      <div style={{
+          backgroundImage: 'url(https://img.freepik.com/free-vector/watercolor-feather-frame-vector-boho-style_53876-170528.jpg?size=626&ext=jpg&ga=GA1.2.2091757336.1680171558&semt=ais)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 80%',
+          minHeight: '100vh',
+        }}>
       <Container maxWidth="xl">
-        <Typography variant="h3" sx={{ mb: 5 }}>
-          Select a class
-        </Typography>
+          <Typography
+            variant="h2"
+            sx={{
+              fontFamily: 'Crimson Text',
+              display: 'inline-block',
+              color: '#CF0000',
+              fontWeight: '600',
+              textAlign: 'center',
+              letterSpacing: '2px',
+              marginBottom: '40px',
+              marginLeft: '200px',
+              marginTop: '20px',
+              background:'linear-gradient(45deg, rgba(254, 98, 68, 1), rgba(153, 204, 255, 1))',
+              padding: '10px 20px',
+              borderRadius: '25px',
+              boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
+            }}
+          >
+            SELECT A CLASS
+          </Typography>
 
         <Grid container spacing={3}>
          
@@ -157,6 +188,7 @@ const handleSelectClass = (className) => {
 
         </Grid>
       </Container>
+      </div>
     </>
   );
 }
